@@ -1,0 +1,10 @@
+{
+  "tasks": [
+    {
+      "id": "task-03",
+      "title": "Restore demo access",
+      "status": "open",
+      "priority": 0
+    }
+  ]
+}

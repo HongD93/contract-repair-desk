@@ -1,0 +1,5 @@
+# Keep pinned evidence inputs byte-identical across operating systems.
+sample/*.ts -text
+test/*.ts -text
+fixtures/*.ts -text
+*.png binary

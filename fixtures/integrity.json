@@ -1,0 +1,5 @@
+{
+  "test/consumer.test.ts": "b8f67ac47d538f444f0d233f8e11caa3a45697807af312a674c9b028651112e5",
+  "sample/api.ts": "175d4ff6ac7de9e6e51ba754dc4d10c3e1d541b6a6f244ff7237de47b09d3193",
+  "fixtures/consumer-before.ts": "5996dc8d3c0c2cd9f0f40b578993e8c23464ba623dc07792e3ba95a5d20b6934"
+}

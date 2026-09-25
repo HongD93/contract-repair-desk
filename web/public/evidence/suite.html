@@ -1,0 +1,210 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Contract Repair Desk — Evidence</title><style>body{font:16px system-ui;max-width:960px;margin:40px auto;padding:20px;color:#193d31}table{border-collapse:collapse;width:100%}td,th{padding:12px;text-align:left;border-bottom:1px solid #ddd}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#eef2ed;padding:20px}code{overflow-wrap:anywhere}h1{font-size:36px}</style><h1>Contract Repair Desk</h1><p>verified-repair · 847f63fe-0902-42fc-baee-536a80d4fd74</p><p>Six unchanged checks. Three seeded defects, two controls, one explicit rejection.</p><table><tr><th>Case</th><th>Before</th><th>After</th></tr><tr><td>Stable response</td><td>PASS</td><td>PASS</td></tr><tr><td>Extra field</td><td>PASS</td><td>PASS</td></tr><tr><td>Renamed title</td><td>FAIL / UNKNOWN</td><td>PASS</td></tr><tr><td>New status value</td><td>FAIL / UNKNOWN</td><td>PASS</td></tr><tr><td>Zero is a valid value</td><td>FAIL / UNKNOWN</td><td>PASS</td></tr><tr><td>Unsupported payload</td><td>PASS</td><td>PASS</td></tr></table><h2>Before log</h2><pre>TAP version 13
+# Subtest: case:baseline
+ok 1 - case:baseline
+  ---
+  duration_ms: 0.9177
+  type: &#39;test&#39;
+  ...
+# Subtest: case:additive
+ok 2 - case:additive
+  ---
+  duration_ms: 0.1069
+  type: &#39;test&#39;
+  ...
+# Subtest: case:renamed-title
+not ok 3 - case:renamed-title
+  ---
+  duration_ms: 0.8061
+  type: &#39;test&#39;
+  location: &#39;[isolated-run]\\test\\suite.test.ts:14:3&#39;
+  failureType: &#39;testCodeFailure&#39;
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      [
+        {
+          id: &#39;task-01&#39;,
+          priorityLabel: &#39;P2&#39;,
+          statusLabel: &#39;Open&#39;,
+    +     title: &#39;&#39;
+    -     title: &#39;Review release notes&#39;
+        }
+      ]
+    
+  code: &#39;ERR_ASSERTION&#39;
+  name: &#39;AssertionError&#39;
+  expected:
+    0:
+      id: &#39;task-01&#39;
+      title: &#39;Review release notes&#39;
+      statusLabel: &#39;Open&#39;
+      priorityLabel: &#39;P2&#39;
+  actual:
+    0:
+      id: &#39;task-01&#39;
+      title: &#39;&#39;
+      statusLabel: &#39;Open&#39;
+      priorityLabel: &#39;P2&#39;
+  operator: &#39;deepStrictEqual&#39;
+  stack: |-
+    TestContext.&lt;anonymous&gt; (file:///[isolated-run]/test/suite.test.ts:16:17)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1201:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+    Test.postRun (node:internal/test_runner/test:1330:19)
+    Test.run (node:internal/test_runner/test:1258:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:831:7)
+  ...
+# Subtest: case:status-enum
+not ok 4 - case:status-enum
+  ---
+  duration_ms: 0.2375
+  type: &#39;test&#39;
+  location: &#39;[isolated-run]\\test\\suite.test.ts:14:3&#39;
+  failureType: &#39;testCodeFailure&#39;
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      [
+        {
+          id: &#39;task-02&#39;,
+          priorityLabel: &#39;P2&#39;,
+    +     statusLabel: &#39;Unknown&#39;,
+    -     statusLabel: &#39;In progress&#39;,
+          title: &#39;Verify payment sandbox&#39;
+        }
+      ]
+    
+  code: &#39;ERR_ASSERTION&#39;
+  name: &#39;AssertionError&#39;
+  expected:
+    0:
+      id: &#39;task-02&#39;
+      title: &#39;Verify payment sandbox&#39;
+      statusLabel: &#39;In progress&#39;
+      priorityLabel: &#39;P2&#39;
+  actual:
+    0:
+      id: &#39;task-02&#39;
+      title: &#39;Verify payment sandbox&#39;
+      statusLabel: &#39;Unknown&#39;
+      priorityLabel: &#39;P2&#39;
+  operator: &#39;deepStrictEqual&#39;
+  stack: |-
+    TestContext.&lt;anonymous&gt; (file:///[isolated-run]/test/suite.test.ts:16:17)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1201:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+    Test.postRun (node:internal/test_runner/test:1330:19)
+    Test.run (node:internal/test_runner/test:1258:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:831:7)
+  ...
+# Subtest: case:zero-priority
+not ok 5 - case:zero-priority
+  ---
+  duration_ms: 0.1767
+  type: &#39;test&#39;
+  location: &#39;[isolated-run]\\test\\suite.test.ts:14:3&#39;
+  failureType: &#39;testCodeFailure&#39;
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      [
+        {
+          id: &#39;task-03&#39;,
+    +     priorityLabel: &#39;Not set&#39;,
+    -     priorityLabel: &#39;Critical&#39;,
+          statusLabel: &#39;Open&#39;,
+          title: &#39;Restore demo access&#39;
+        }
+      ]
+    
+  code: &#39;ERR_ASSERTION&#39;
+  name: &#39;AssertionError&#39;
+  expected:
+    0:
+      id: &#39;task-03&#39;
+      title: &#39;Restore demo access&#39;
+      statusLabel: &#39;Open&#39;
+      priorityLabel: &#39;Critical&#39;
+  actual:
+    0:
+      id: &#39;task-03&#39;
+      title: &#39;Restore demo access&#39;
+      statusLabel: &#39;Open&#39;
+      priorityLabel: &#39;Not set&#39;
+  operator: &#39;deepStrictEqual&#39;
+  stack: |-
+    TestContext.&lt;anonymous&gt; (file:///[isolated-run]/test/suite.test.ts:16:17)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1201:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+    Test.postRun (node:internal/test_runner/test:1330:19)
+    Test.run (node:internal/test_runner/test:1258:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:831:7)
+  ...
+# Subtest: case:unsupported
+ok 6 - case:unsupported
+  ---
+  duration_ms: 0.2466
+  type: &#39;test&#39;
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 3
+# fail 3
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 124.5697
+</pre><h2>After log</h2><pre>TAP version 13
+# Subtest: case:baseline
+ok 1 - case:baseline
+  ---
+  duration_ms: 1.0355
+  type: &#39;test&#39;
+  ...
+# Subtest: case:additive
+ok 2 - case:additive
+  ---
+  duration_ms: 0.1029
+  type: &#39;test&#39;
+  ...
+# Subtest: case:renamed-title
+ok 3 - case:renamed-title
+  ---
+  duration_ms: 0.0716
+  type: &#39;test&#39;
+  ...
+# Subtest: case:status-enum
+ok 4 - case:status-enum
+  ---
+  duration_ms: 0.0579
+  type: &#39;test&#39;
+  ...
+# Subtest: case:zero-priority
+ok 5 - case:zero-priority
+  ---
+  duration_ms: 0.0984
+  type: &#39;test&#39;
+  ...
+# Subtest: case:unsupported
+ok 6 - case:unsupported
+  ---
+  duration_ms: 0.2563
+  type: &#39;test&#39;
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 115.371
+</pre><h2>Inputs</h2><p>sample/cases.ts<br><code>a60df82edcbf93f944b0259b8026085bb0aae95bad2678231c6e6397a3dbd345</code></p><p>test/suite.test.ts<br><code>3f79f0f2125bc4406fba73be48a085b5c36402479228fb765b4674ed1fff6cca</code></p><p>fixtures/view-model-before.ts<br><code>0d2cc2c1d9a66907d8c9d028de6293dd034282619722de6bf4946f4ef328190d</code></p><p>sample/view-model.ts<br><code>c78ccc1c56c31aaf9c2356ac52aa5baac1a930c4e8b7b9a2350bb3bac9f8385d</code></p><h2>Limitations</h2><ul><li>Six fictional cases; no production repository coverage or human productivity benchmark.</li><li>Browser runs the real before/after mapper on fetched static fixtures. Recorded tests are separate from interactive previews.</li><li>Hashes pin local inputs, not third-party authenticity. Only trusted local code should be run.</li><li>No Bob inference or paid service is called by the viewer or capture command.</li></ul></html>

@@ -1,0 +1,10 @@
+{
+  "tasks": [
+    {
+      "id": "task-01",
+      "displayName": "Review release notes",
+      "status": "open",
+      "priority": 2
+    }
+  ]
+}

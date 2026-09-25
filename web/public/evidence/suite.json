@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 2,
+  "kind": "recorded-suite-verification",
+  "runId": "847f63fe-0902-42fc-baee-536a80d4fd74",
+  "generatedAt": "2026-09-25T16:53:21.697Z",
+  "nodeVersion": "v24.15.0",
+  "outcome": "verified-repair",
+  "inputs": {
+    "sample/cases.ts": "a60df82edcbf93f944b0259b8026085bb0aae95bad2678231c6e6397a3dbd345",
+    "test/suite.test.ts": "3f79f0f2125bc4406fba73be48a085b5c36402479228fb765b4674ed1fff6cca",
+    "fixtures/view-model-before.ts": "0d2cc2c1d9a66907d8c9d028de6293dd034282619722de6bf4946f4ef328190d",
+    "sample/view-model.ts": "c78ccc1c56c31aaf9c2356ac52aa5baac1a930c4e8b7b9a2350bb3bac9f8385d"
+  },
+  "before": {
+    "exitCode": 1,
+    "stdout": "TAP version 13\n# Subtest: case:baseline\nok 1 - case:baseline\n  ---\n  duration_ms: 0.9177\n  type: 'test'\n  ...\n# Subtest: case:additive\nok 2 - case:additive\n  ---\n  duration_ms: 0.1069\n  type: 'test'\n  ...\n# Subtest: case:renamed-title\nnot ok 3 - case:renamed-title\n  ---\n  duration_ms: 0.8061\n  type: 'test'\n  location: '[isolated-run]\\\\test\\\\suite.test.ts:14:3'\n  failureType: 'testCodeFailure'\n  error: |-\n    Expected values to be strictly deep-equal:\n    + actual - expected\n    \n      [\n        {\n          id: 'task-01',\n          priorityLabel: 'P2',\n          statusLabel: 'Open',\n    +     title: ''\n    -     title: 'Review release notes'\n        }\n      ]\n    \n  code: 'ERR_ASSERTION'\n  name: 'AssertionError'\n  expected:\n    0:\n      id: 'task-01'\n      title: 'Review release notes'\n      statusLabel: 'Open'\n      priorityLabel: 'P2'\n  actual:\n    0:\n      id: 'task-01'\n      title: ''\n      statusLabel: 'Open'\n      priorityLabel: 'P2'\n  operator: 'deepStrictEqual'\n  stack: |-\n    TestContext.<anonymous> (file:///[isolated-run]/test/suite.test.ts:16:17)\n    Test.runInAsyncScope (node:async_hooks:227:14)\n    Test.run (node:internal/test_runner/test:1201:25)\n    Test.processPendingSubtests (node:internal/test_runner/test:831:18)\n    Test.postRun (node:internal/test_runner/test:1330:19)\n    Test.run (node:internal/test_runner/test:1258:12)\n    async Test.processPendingSubtests (node:internal/test_runner/test:831:7)\n  ...\n# Subtest: case:status-enum\nnot ok 4 - case:status-enum\n  ---\n  duration_ms: 0.2375\n  type: 'test'\n  location: '[isolated-run]\\\\test\\\\suite.test.ts:14:3'\n  failureType: 'testCodeFailure'\n  error: |-\n    Expected values to be strictly deep-equal:\n    + actual - expected\n    \n      [\n        {\n          id: 'task-02',\n          priorityLabel: 'P2',\n    +     statusLabel: 'Unknown',\n    -     statusLabel: 'In progress',\n          title: 'Verify payment sandbox'\n        }\n      ]\n    \n  code: 'ERR_ASSERTION'\n  name: 'AssertionError'\n  expected:\n    0:\n      id: 'task-02'\n      title: 'Verify payment sandbox'\n      statusLabel: 'In progress'\n      priorityLabel: 'P2'\n  actual:\n    0:\n      id: 'task-02'\n      title: 'Verify payment sandbox'\n      statusLabel: 'Unknown'\n      priorityLabel: 'P2'\n  operator: 'deepStrictEqual'\n  stack: |-\n    TestContext.<anonymous> (file:///[isolated-run]/test/suite.test.ts:16:17)\n    Test.runInAsyncScope (node:async_hooks:227:14)\n    Test.run (node:internal/test_runner/test:1201:25)\n    Test.processPendingSubtests (node:internal/test_runner/test:831:18)\n    Test.postRun (node:internal/test_runner/test:1330:19)\n    Test.run (node:internal/test_runner/test:1258:12)\n    async Test.processPendingSubtests (node:internal/test_runner/test:831:7)\n  ...\n# Subtest: case:zero-priority\nnot ok 5 - case:zero-priority\n  ---\n  duration_ms: 0.1767\n  type: 'test'\n  location: '[isolated-run]\\\\test\\\\suite.test.ts:14:3'\n  failureType: 'testCodeFailure'\n  error: |-\n    Expected values to be strictly deep-equal:\n    + actual - expected\n    \n      [\n        {\n          id: 'task-03',\n    +     priorityLabel: 'Not set',\n    -     priorityLabel: 'Critical',\n          statusLabel: 'Open',\n          title: 'Restore demo access'\n        }\n      ]\n    \n  code: 'ERR_ASSERTION'\n  name: 'AssertionError'\n  expected:\n    0:\n      id: 'task-03'\n      title: 'Restore demo access'\n      statusLabel: 'Open'\n      priorityLabel: 'Critical'\n  actual:\n    0:\n      id: 'task-03'\n      title: 'Restore demo access'\n      statusLabel: 'Open'\n      priorityLabel: 'Not set'\n  operator: 'deepStrictEqual'\n  stack: |-\n    TestContext.<anonymous> (file:///[isolated-run]/test/suite.test.ts:16:17)\n    Test.runInAsyncScope (node:async_hooks:227:14)\n    Test.run (node:internal/test_runner/test:1201:25)\n    Test.processPendingSubtests (node:internal/test_runner/test:831:18)\n    Test.postRun (node:internal/test_runner/test:1330:19)\n    Test.run (node:internal/test_runner/test:1258:12)\n    async Test.processPendingSubtests (node:internal/test_runner/test:831:7)\n  ...\n# Subtest: case:unsupported\nok 6 - case:unsupported\n  ---\n  duration_ms: 0.2466\n  type: 'test'\n  ...\n1..6\n# tests 6\n# suites 0\n# pass 3\n# fail 3\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 124.5697\n",
+    "stderr": "",
+    "spawnError": null,
+    "elapsedMs": 184,
+    "signal": null,
+    "total": 6,
+    "pass": 3,
+    "fail": 3,
+    "skip": 0,
+    "cancel": 0,
+    "found": true,
+    "cases": [
+      {
+        "id": "baseline",
+        "passed": true
+      },
+      {
+        "id": "additive",
+        "passed": true
+      },
+      {
+        "id": "renamed-title",
+        "passed": false
+      },
+      {
+        "id": "status-enum",
+        "passed": false
+      },
+      {
+        "id": "zero-priority",
+        "passed": false
+      },
+      {
+        "id": "unsupported",
+        "passed": true
+      }
+    ],
+    "inconclusive": false
+  },
+  "after": {
+    "exitCode": 0,
+    "stdout": "TAP version 13\n# Subtest: case:baseline\nok 1 - case:baseline\n  ---\n  duration_ms: 1.0355\n  type: 'test'\n  ...\n# Subtest: case:additive\nok 2 - case:additive\n  ---\n  duration_ms: 0.1029\n  type: 'test'\n  ...\n# Subtest: case:renamed-title\nok 3 - case:renamed-title\n  ---\n  duration_ms: 0.0716\n  type: 'test'\n  ...\n# Subtest: case:status-enum\nok 4 - case:status-enum\n  ---\n  duration_ms: 0.0579\n  type: 'test'\n  ...\n# Subtest: case:zero-priority\nok 5 - case:zero-priority\n  ---\n  duration_ms: 0.0984\n  type: 'test'\n  ...\n# Subtest: case:unsupported\nok 6 - case:unsupported\n  ---\n  duration_ms: 0.2563\n  type: 'test'\n  ...\n1..6\n# tests 6\n# suites 0\n# pass 6\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 115.371\n",
+    "stderr": "",
+    "spawnError": null,
+    "elapsedMs": 175,
+    "signal": null,
+    "total": 6,
+    "pass": 6,
+    "fail": 0,
+    "skip": 0,
+    "cancel": 0,
+    "found": true,
+    "cases": [
+      {
+        "id": "baseline",
+        "passed": true
+      },
+      {
+        "id": "additive",
+        "passed": true
+      },
+      {
+        "id": "renamed-title",
+        "passed": true
+      },
+      {
+        "id": "status-enum",
+        "passed": true
+      },
+      {
+        "id": "zero-priority",
+        "passed": true
+      },
+      {
+        "id": "unsupported",
+        "passed": true
+      }
+    ],
+    "inconclusive": false
+  },
+  "elapsedMs": 369,
+  "cases": [
+    {
+      "id": "baseline",
+      "title": "Stable response",
+      "category": "control",
+      "reason": "Existing title and open status remain supported."
+    },
+    {
+      "id": "additive",
+      "title": "Extra field",
+      "category": "control",
+      "reason": "An extra owner field must not change the displayed task."
+    },
+    {
+      "id": "renamed-title",
+      "title": "Renamed title",
+      "category": "repair",
+      "reason": "The API intentionally replaces title with displayName."
+    },
+    {
+      "id": "status-enum",
+      "title": "New status value",
+      "category": "repair",
+      "reason": "The intended in_progress status needs a readable label instead of Unknown."
+    },
+    {
+      "id": "zero-priority",
+      "title": "Zero is a valid value",
+      "category": "repair",
+      "reason": "The numeric contract is unchanged. Priority 0 means Critical, not missing."
+    },
+    {
+      "id": "unsupported",
+      "title": "Unsupported payload",
+      "category": "unsupported",
+      "reason": "A different response shape must stop with an explicit error."
+    }
+  ],
+  "limitations": [
+    "Six fictional cases; no production repository coverage or human productivity benchmark.",
+    "Browser runs the real before/after mapper on fetched static fixtures. Recorded tests are separate from interactive previews.",
+    "Hashes pin local inputs, not third-party authenticity. Only trusted local code should be run.",
+    "No Bob inference or paid service is called by the viewer or capture command."
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "runId": "24b7783a-6b62-42fa-b0eb-a8eb5b579527",
+  "generatedAt": "2026-09-25T16:53:21.322Z",
+  "kind": "replayed-verification",
+  "nodeVersion": "v24.15.0",
+  "inputs": {
+    "test/consumer.test.ts": "b8f67ac47d538f444f0d233f8e11caa3a45697807af312a674c9b028651112e5",
+    "sample/api.ts": "175d4ff6ac7de9e6e51ba754dc4d10c3e1d541b6a6f244ff7237de47b09d3193",
+    "sample/consumer.ts": "55800123286cd23e49cc463539ab9339202364430e43f5e6d1349f228fbb8ab8",
+    "fixtures/consumer-before.ts": "5996dc8d3c0c2cd9f0f40b578993e8c23464ba623dc07792e3ba95a5d20b6934"
+  },
+  "before": {
+    "exitCode": 1,
+    "stdout": "TAP version 13\n# Subtest: consumer preserves visible task content: baseline\nok 1 - consumer preserves visible task content: baseline\n  ---\n  duration_ms: 30.3391\n  type: 'test'\n  ...\n# Subtest: consumer preserves visible task content: additive\nok 2 - consumer preserves visible task content: additive\n  ---\n  duration_ms: 8.9287\n  type: 'test'\n  ...\n# Subtest: consumer preserves visible task content: renamed-title\nnot ok 3 - consumer preserves visible task content: renamed-title\n  ---\n  duration_ms: 6.8071\n  type: 'test'\n  location: '[isolated-run]\\\\test\\\\consumer.test.ts:11:3'\n  failureType: 'testCodeFailure'\n  error: |-\n    Expected values to be strictly deep-equal:\n    + actual - expected\n    \n      [\n        {\n          id: 'task-01',\n          status: 'open',\n    +     title: ''\n    -     title: 'Review release notes'\n        }\n      ]\n    \n  code: 'ERR_ASSERTION'\n  name: 'AssertionError'\n  expected:\n    0:\n      id: 'task-01'\n      title: 'Review release notes'\n      status: 'open'\n  actual:\n    0:\n      id: 'task-01'\n      title: ''\n      status: 'open'\n  operator: 'deepStrictEqual'\n  stack: |-\n    TestContext.<anonymous> (file:///[isolated-run]/test/consumer.test.ts:24:14)\n    process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    async Test.run (node:internal/test_runner/test:1208:7)\n    async Test.processPendingSubtests (node:internal/test_runner/test:831:7)\n  ...\n1..3\n# tests 3\n# suites 0\n# pass 2\n# fail 1\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 185.0932\n",
+    "stderr": "",
+    "spawnError": null,
+    "timedOut": false,
+    "signal": null,
+    "total": 3,
+    "pass": 2,
+    "fail": 1,
+    "skip": 0,
+    "cancel": 0,
+    "inconclusive": false
+  },
+  "after": {
+    "exitCode": 0,
+    "stdout": "TAP version 13\n# Subtest: consumer preserves visible task content: baseline\nok 1 - consumer preserves visible task content: baseline\n  ---\n  duration_ms: 31.3502\n  type: 'test'\n  ...\n# Subtest: consumer preserves visible task content: additive\nok 2 - consumer preserves visible task content: additive\n  ---\n  duration_ms: 8.0797\n  type: 'test'\n  ...\n# Subtest: consumer preserves visible task content: renamed-title\nok 3 - consumer preserves visible task content: renamed-title\n  ---\n  duration_ms: 5.2937\n  type: 'test'\n  ...\n1..3\n# tests 3\n# suites 0\n# pass 3\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 177.4119\n",
+    "stderr": "",
+    "spawnError": null,
+    "timedOut": false,
+    "signal": null,
+    "total": 3,
+    "pass": 3,
+    "fail": 0,
+    "skip": 0,
+    "cancel": 0,
+    "inconclusive": false
+  },
+  "outcome": "verified-repair",
+  "limitations": [
+    "This report replays a saved initial fixture (fixtures/consumer-before.ts) and the current source file (sample/consumer.ts) in isolated temporary directories.",
+    "It does not invoke Bob, measure developer time, record Bob session metadata, or prove rendered UI behaviour.",
+    "Hashes in fixtures/integrity.json provide local change-detection only; they are not cryptographic attestation against a malicious owner who modifies both the manifest and the source files.",
+    "Tests use a loopback HTTP fixture. No external service calls, npm installs, or automatic fixes are performed.",
+    "Temporary directory paths in process logs are replaced with [isolated-run] for sharing."
+  ]
+}
