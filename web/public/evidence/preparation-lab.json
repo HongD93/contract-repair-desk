@@ -1,0 +1,173 @@
+{
+  "version": 1,
+  "kind": "synthetic-preparation-example",
+  "attribution": "Codex-authored synthetic teaching fixture. No Bob call, source-project extraction or measured productivity claim.",
+  "modelCalls": 0,
+  "contract": {
+    "version": 1,
+    "name": "Synthetic unit counter",
+    "requirements": "units must be a non-negative integer. Zero must stay zero. Invalid inputs throw Invalid units.",
+    "checks": [
+      {
+        "id": "positive",
+        "purpose": "preserve",
+        "input": {
+          "units": 4
+        },
+        "expected": {
+          "units": 4
+        }
+      },
+      {
+        "id": "new-input",
+        "purpose": "migration",
+        "input": {
+          "units": 9
+        },
+        "expected": {
+          "units": 9
+        }
+      },
+      {
+        "id": "negative",
+        "purpose": "reject",
+        "input": {
+          "units": -2
+        },
+        "error": "Invalid units"
+      }
+    ]
+  },
+  "source": "export function mapResponse(p:any){if(!p||!Number.isInteger(p.units)||p.units<0)throw new Error('Invalid units');return {units:p.units};}\n",
+  "proposal": {
+    "version": 1,
+    "kind": "review-proposal",
+    "contractHash": "9a2dc2f06a74ce47562a5337e3b8c7303271c41df49501dbd36eb6d4117c410d",
+    "checks": [
+      {
+        "check": {
+          "id": "zero",
+          "purpose": "preserve",
+          "input": {
+            "units": 0
+          },
+          "expected": {
+            "units": 0
+          }
+        },
+        "quote": "Zero must stay zero.",
+        "reason": "Positive-only examples miss a truthiness fallback."
+      },
+      {
+        "check": {
+          "id": "fraction",
+          "purpose": "reject",
+          "input": {
+            "units": 1.5
+          },
+          "error": "Invalid units"
+        },
+        "quote": "units must be a non-negative integer.",
+        "reason": "A fraction is not an integer."
+      },
+      {
+        "check": {
+          "id": "invented-default",
+          "purpose": "migration",
+          "input": {},
+          "expected": {
+            "units": 10
+          }
+        },
+        "quote": "Missing units default to ten.",
+        "reason": "Intentionally unsupported teaching proposal."
+      }
+    ],
+    "questions": []
+  },
+  "decisions": {
+    "version": 1,
+    "kind": "proposal-decisions",
+    "proposalHash": "70f77a8165d5c7437b761f6c5890d6625a82470364c4d21d6b13b12474b46107",
+    "contractHash": "9a2dc2f06a74ce47562a5337e3b8c7303271c41df49501dbd36eb6d4117c410d",
+    "reviewer": {
+      "kind": "independent-agent",
+      "name": "Codex synthetic fixture author"
+    },
+    "decisions": [
+      {
+        "id": "zero",
+        "action": "accept",
+        "reason": "The exact rule requires preserving zero."
+      },
+      {
+        "id": "fraction",
+        "action": "accept",
+        "reason": "The integer rule explicitly rejects fractions."
+      },
+      {
+        "id": "invented-default",
+        "action": "reject",
+        "reason": "No such default exists in the requirements; the proposed result contradicts rejection."
+      }
+    ]
+  },
+  "audit": {
+    "version": 1,
+    "kind": "seeded-fault-audit",
+    "candidateHash": "21c836008f3eea0bb8896814680785f6ecc6c48224211548edd4666cdbb18016",
+    "contractHash": "9a2dc2f06a74ce47562a5337e3b8c7303271c41df49501dbd36eb6d4117c410d",
+    "reviewPlanHash": "9726389051c92c3a87dd5c181663d8a14968aef00345073bd59181069ed50d0c",
+    "mutationPlanHash": "9fa4e3cad73ca6d1be8cb94b91bb12ed14d635bafa109768f6c54fb6a4313519",
+    "summary": {
+      "seededFaults": 2,
+      "detectedByInitial": 1,
+      "detectedByCombined": 2,
+      "survived": 0,
+      "inconclusive": 0,
+      "equivalentControls": 1,
+      "controlsPreserved": 1
+    },
+    "rows": [
+      {
+        "id": "false-zero",
+        "kind": "behavior-change",
+        "reason": "Valid zero is replaced with ten.",
+        "state": "detected",
+        "initialFailures": 0,
+        "addedFailures": 1,
+        "failedChecks": [
+          "zero"
+        ],
+        "candidateHash": "fc94eb848fd28d32cae6783109a7a09a33501df1990ffcedda316c4b2869c996"
+      },
+      {
+        "id": "accept-negative",
+        "kind": "behavior-change",
+        "reason": "Negative counts are incorrectly accepted.",
+        "state": "detected",
+        "initialFailures": 1,
+        "addedFailures": 0,
+        "failedChecks": [
+          "negative"
+        ],
+        "candidateHash": "4a899586a6b192ed42156257fd85900ac1765bfa83024248101e5ab0cc5bed1a"
+      },
+      {
+        "id": "comment",
+        "kind": "equivalent-control",
+        "reason": "Only a comment changes.",
+        "state": "control-preserved",
+        "initialFailures": 0,
+        "addedFailures": 0,
+        "failedChecks": [],
+        "candidateHash": "b0aba35dcea68b30a4117e4c11ab011b30d6c3afd9059f25bba39a8830616908"
+      }
+    ],
+    "limitations": [
+      "Developer-selected seeded source changes, not exhaustive mutation testing or measured production defect recall.",
+      "Equivalent controls are reported separately. Inconclusive execution never counts as detection.",
+      "A passed pristine candidate is required; the source and original contract stay unchanged."
+    ]
+  }
+}

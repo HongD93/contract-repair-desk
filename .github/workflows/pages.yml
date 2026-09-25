@@ -23,7 +23,7 @@ jobs:
           cache: npm
           cache-dependency-path: web/package-lock.json
       - run: npm test
-      - run: npm run evidence
+      - run: npm run evidence:all
       - run: npm --prefix web ci
       - run: npm --prefix web run build
         env:
