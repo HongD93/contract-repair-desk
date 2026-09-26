@@ -1,0 +1,316 @@
+{
+  "version": 1,
+  "kind": "contract-repair-job",
+  "runId": "92541135-41a0-4a2e-9358-d66a0a9a47ff",
+  "generatedAt": "2026-09-25T18:19:52.072Z",
+  "name": "Dispatch queue",
+  "outcome": "verified-repair",
+  "controlsPreserved": true,
+  "manifestHash": "d0affb3af19b686eaefa943e5d9e304271bb75bfc129beab08c53f37e11cb029",
+  "hashes": {
+    "contract.json": "338564f45db443b10c06b831784d921866748f5f2ab40268062f21bee474f047",
+    "baseline.ts": "b7c074b2ee7279185a5397d9d580ba036130485f70b1ffd5a49c97dfda3d2723",
+    "candidate.ts": "b05815bd192f16501f40105ee36ddac3f6784b00e8946a59039f0b47f9605974"
+  },
+  "before": {
+    "pass": 3,
+    "total": 7,
+    "checks": [
+      {
+        "id": "legacy-ticket",
+        "purpose": "preserve",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "value": [
+            {
+              "id": "T-1",
+              "title": "Inspect valve",
+              "priority": "P2",
+              "state": "Open"
+            }
+          ]
+        },
+        "actual": {
+          "value": [
+            {
+              "id": "T-1",
+              "title": "Inspect valve",
+              "priority": "P2",
+              "state": "Open"
+            }
+          ]
+        }
+      },
+      {
+        "id": "title-precedence",
+        "purpose": "preserve",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "value": [
+            {
+              "id": "T-2",
+              "title": "Old",
+              "priority": "P1",
+              "state": "Done"
+            }
+          ]
+        },
+        "actual": {
+          "value": [
+            {
+              "id": "T-2",
+              "title": "Old",
+              "priority": "P1",
+              "state": "Done"
+            }
+          ]
+        }
+      },
+      {
+        "id": "critical-assignment",
+        "purpose": "migration",
+        "httpStatus": 200,
+        "passed": false,
+        "expected": {
+          "value": [
+            {
+              "id": "T-3",
+              "title": "Emergency inspection",
+              "priority": "Critical",
+              "state": "In progress"
+            }
+          ]
+        },
+        "actual": {
+          "value": [
+            {
+              "id": "T-3",
+              "title": "",
+              "priority": "Normal",
+              "state": "Unknown"
+            }
+          ]
+        }
+      },
+      {
+        "id": "empty-queue",
+        "purpose": "preserve",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "value": []
+        },
+        "actual": {
+          "value": []
+        }
+      },
+      {
+        "id": "unknown-state",
+        "purpose": "reject",
+        "httpStatus": 200,
+        "passed": false,
+        "expected": {
+          "error": "Unsupported dispatch response"
+        },
+        "actual": {
+          "value": [
+            {
+              "id": "T-4",
+              "title": "Check",
+              "priority": "P1",
+              "state": "Unknown"
+            }
+          ]
+        }
+      },
+      {
+        "id": "prototype-state",
+        "purpose": "reject",
+        "httpStatus": 200,
+        "passed": false,
+        "expected": {
+          "error": "Unsupported dispatch response"
+        },
+        "actual": {
+          "value": [
+            {
+              "id": "T-5",
+              "title": "Check",
+              "priority": "P1",
+              "state": "Unknown"
+            }
+          ]
+        }
+      },
+      {
+        "id": "invalid-priority",
+        "purpose": "reject",
+        "httpStatus": 200,
+        "passed": false,
+        "expected": {
+          "error": "Unsupported dispatch response"
+        },
+        "actual": {
+          "value": [
+            {
+              "id": "T-6",
+              "title": "Check",
+              "priority": "P-1",
+              "state": "Open"
+            }
+          ]
+        }
+      }
+    ],
+    "elapsedMs": 94,
+    "failure": null,
+    "diagnostic": ""
+  },
+  "after": {
+    "pass": 7,
+    "total": 7,
+    "checks": [
+      {
+        "id": "legacy-ticket",
+        "purpose": "preserve",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "value": [
+            {
+              "id": "T-1",
+              "title": "Inspect valve",
+              "priority": "P2",
+              "state": "Open"
+            }
+          ]
+        },
+        "actual": {
+          "value": [
+            {
+              "id": "T-1",
+              "title": "Inspect valve",
+              "priority": "P2",
+              "state": "Open"
+            }
+          ]
+        }
+      },
+      {
+        "id": "title-precedence",
+        "purpose": "preserve",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "value": [
+            {
+              "id": "T-2",
+              "title": "Old",
+              "priority": "P1",
+              "state": "Done"
+            }
+          ]
+        },
+        "actual": {
+          "value": [
+            {
+              "id": "T-2",
+              "title": "Old",
+              "priority": "P1",
+              "state": "Done"
+            }
+          ]
+        }
+      },
+      {
+        "id": "critical-assignment",
+        "purpose": "migration",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "value": [
+            {
+              "id": "T-3",
+              "title": "Emergency inspection",
+              "priority": "Critical",
+              "state": "In progress"
+            }
+          ]
+        },
+        "actual": {
+          "value": [
+            {
+              "id": "T-3",
+              "title": "Emergency inspection",
+              "priority": "Critical",
+              "state": "In progress"
+            }
+          ]
+        }
+      },
+      {
+        "id": "empty-queue",
+        "purpose": "preserve",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "value": []
+        },
+        "actual": {
+          "value": []
+        }
+      },
+      {
+        "id": "unknown-state",
+        "purpose": "reject",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "error": "Unsupported dispatch response"
+        },
+        "actual": {
+          "error": "Unsupported dispatch response"
+        }
+      },
+      {
+        "id": "prototype-state",
+        "purpose": "reject",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "error": "Unsupported dispatch response"
+        },
+        "actual": {
+          "error": "Unsupported dispatch response"
+        }
+      },
+      {
+        "id": "invalid-priority",
+        "purpose": "reject",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "error": "Unsupported dispatch response"
+        },
+        "actual": {
+          "error": "Unsupported dispatch response"
+        }
+      }
+    ],
+    "elapsedMs": 103,
+    "failure": null,
+    "diagnostic": ""
+  },
+  "source": {
+    "before": "export function mapResponse(payload: any) {\n  if (!Array.isArray(payload.tickets)) throw new Error('Unsupported dispatch response');\n  return payload.tickets.map((row:any)=>({id:row.id,title:row.title || '',priority:row.priority ? `P${row.priority}` : 'Normal',state:row.state==='open'?'Open':row.state==='done'?'Done':'Unknown'}));\n}\n",
+    "after": "export function mapResponse(payload: any) {\n  if (!Array.isArray(payload.tickets)) throw new Error('Unsupported dispatch response');\n  const STATE_MAP: Record<string, string> = { open: 'Open', done: 'Done', assigned: 'In progress' };\n  const PRIORITY_MAP: Record<number, string> = { 0: 'Critical', 1: 'P1', 2: 'P2', 3: 'P3' };\n  return payload.tickets.map((row: any) => {\n    const title = (row.title && row.title !== '') ? row.title : (row.summary && row.summary !== '') ? row.summary : '';\n    if (!title) throw new Error('Unsupported dispatch response');\n    const priority = PRIORITY_MAP[row.priority as number];\n    if (priority === undefined) throw new Error('Unsupported dispatch response');\n    const state = Object.prototype.hasOwnProperty.call(STATE_MAP, row.state) ? STATE_MAP[row.state] : undefined;\n    if (state === undefined) throw new Error('Unsupported dispatch response');\n    return { id: row.id, title, priority, state };\n  });\n}\n"
+  },
+  "limitations": [
+    "Synthetic HTTP fixtures and a pure TypeScript consumer adapter.",
+    "Recorded execution time is not developer time saved.",
+    "Local pins detect edits, not malicious replacement of both manifest and inputs.",
+    "Run only trusted local code; this is not a hostile-code sandbox."
+  ]
+}

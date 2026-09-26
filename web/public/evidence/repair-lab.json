@@ -1,0 +1,2124 @@
+{
+  "version": 1,
+  "generatedAt": "2026-09-25T18:19:53.645Z",
+  "studies": [
+    {
+      "id": "stock",
+      "summary": "Zero available units were displayed as twenty. The transport succeeded while the visible availability was false.",
+      "attribution": "Actual Bob IDE candidate, including a follow-up after independent review exposed null-input gaps. Codex ran verification separately; Bob did not execute terminal commands.",
+      "report": {
+        "version": 1,
+        "kind": "contract-repair-job",
+        "runId": "967251ba-438d-419f-ba1d-22075a3d5a03",
+        "generatedAt": "2026-09-25T18:22:44.140Z",
+        "name": "Warehouse availability",
+        "outcome": "verified-repair",
+        "controlsPreserved": true,
+        "manifestHash": "d54952632bbf111aacd4dcc51ee30aff8bda08b13e3b263694c751dd44366ae3",
+        "hashes": {
+          "contract.json": "173a70fa85c76b31711f764b7dd1767604553433f000a18d9ee81e600c86b6a6",
+          "baseline.ts": "924b909f85180ae4193a2893a8126d5960b4b43225ca7c26951ccd994f6ab21c",
+          "candidate.ts": "f672c0d10962001341f3529016b48893dee12a0ca4662aef263e35957d21ca16"
+        },
+        "before": {
+          "pass": 3,
+          "total": 7,
+          "checks": [
+            {
+              "id": "legacy-stock",
+              "purpose": "preserve",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "value": [
+                  {
+                    "sku": "S-1",
+                    "available": 20,
+                    "label": "Cable"
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "sku": "S-1",
+                    "available": 20,
+                    "label": "Cable"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mixed-precedence",
+              "purpose": "preserve",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "value": [
+                  {
+                    "sku": "S-2",
+                    "available": 3,
+                    "label": "Legacy"
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "sku": "S-2",
+                    "available": 3,
+                    "label": "Legacy"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "zero-means-out-of-stock",
+              "purpose": "migration",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "value": [
+                  {
+                    "sku": "S-3",
+                    "available": 0,
+                    "label": "Adapter"
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "sku": "S-3",
+                    "available": 20,
+                    "label": ""
+                  }
+                ]
+              }
+            },
+            {
+              "id": "renamed-nonzero",
+              "purpose": "migration",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "value": [
+                  {
+                    "sku": "S-4",
+                    "available": 7,
+                    "label": "Hub"
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "sku": "S-4",
+                    "available": 20,
+                    "label": ""
+                  }
+                ]
+              }
+            },
+            {
+              "id": "no-guessed-stock",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported stock response"
+              },
+              "actual": {
+                "value": [
+                  {
+                    "sku": "S-5",
+                    "available": 20,
+                    "label": "Unknown"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "negative-stock",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported stock response"
+              },
+              "actual": {
+                "value": [
+                  {
+                    "sku": "S-6",
+                    "available": -1,
+                    "label": "Invalid"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "wrong-envelope",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "error": "Unsupported stock response"
+              },
+              "actual": {
+                "error": "Unsupported stock response"
+              }
+            }
+          ],
+          "elapsedMs": 99,
+          "failure": null,
+          "diagnostic": ""
+        },
+        "after": {
+          "pass": 7,
+          "total": 7,
+          "checks": [
+            {
+              "id": "legacy-stock",
+              "purpose": "preserve",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "value": [
+                  {
+                    "sku": "S-1",
+                    "available": 20,
+                    "label": "Cable"
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "sku": "S-1",
+                    "available": 20,
+                    "label": "Cable"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mixed-precedence",
+              "purpose": "preserve",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "value": [
+                  {
+                    "sku": "S-2",
+                    "available": 3,
+                    "label": "Legacy"
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "sku": "S-2",
+                    "available": 3,
+                    "label": "Legacy"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "zero-means-out-of-stock",
+              "purpose": "migration",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "value": [
+                  {
+                    "sku": "S-3",
+                    "available": 0,
+                    "label": "Adapter"
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "sku": "S-3",
+                    "available": 0,
+                    "label": "Adapter"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "renamed-nonzero",
+              "purpose": "migration",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "value": [
+                  {
+                    "sku": "S-4",
+                    "available": 7,
+                    "label": "Hub"
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "sku": "S-4",
+                    "available": 7,
+                    "label": "Hub"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "no-guessed-stock",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "error": "Unsupported stock response"
+              },
+              "actual": {
+                "error": "Unsupported stock response"
+              }
+            },
+            {
+              "id": "negative-stock",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "error": "Unsupported stock response"
+              },
+              "actual": {
+                "error": "Unsupported stock response"
+              }
+            },
+            {
+              "id": "wrong-envelope",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "error": "Unsupported stock response"
+              },
+              "actual": {
+                "error": "Unsupported stock response"
+              }
+            }
+          ],
+          "elapsedMs": 104,
+          "failure": null,
+          "diagnostic": ""
+        },
+        "source": {
+          "before": "export function mapResponse(payload: any) {\n  if (!Array.isArray(payload.items)) throw new Error('Unsupported stock response');\n  return payload.items.map((item: any) => ({sku:item.sku,available:item.available || 20,label:item.name || ''}));\n}\n",
+          "after": "export function mapResponse(payload: any) {\n  if (payload == null || !Array.isArray(payload.items)) throw new Error('Unsupported stock response');\n  return payload.items.map((item: any) => {\n    if (item == null || typeof item.sku !== 'string' || item.sku === '') throw new Error('Unsupported stock response');\n\n    const label: string =\n      typeof item.name === 'string' && item.name !== ''\n        ? item.name\n        : typeof item.displayName === 'string' && item.displayName !== ''\n          ? item.displayName\n          : '';\n    if (label === '') throw new Error('Unsupported stock response');\n\n    const available: number =\n      item.available !== undefined ? item.available : item.availableUnits;\n    if (available === undefined || !Number.isInteger(available) || available < 0) {\n      throw new Error('Unsupported stock response');\n    }\n\n    return { sku: item.sku, available, label };\n  });\n}\n"
+        },
+        "limitations": [
+          "Synthetic HTTP fixtures and a pure TypeScript consumer adapter.",
+          "Recorded execution time is not developer time saved.",
+          "Local pins detect edits, not malicious replacement of both manifest and inputs.",
+          "Run only trusted local code; this is not a hostile-code sandbox."
+        ]
+      },
+      "supplemental": {
+        "kind": "post-study-supplemental-review",
+        "pass": 4,
+        "total": 4,
+        "checks": [
+          {
+            "id": "review-null",
+            "purpose": "reject",
+            "httpStatus": 200,
+            "passed": true,
+            "expected": {
+              "error": "Unsupported stock response"
+            },
+            "actual": {
+              "error": "Unsupported stock response"
+            }
+          },
+          {
+            "id": "review-null-row",
+            "purpose": "reject",
+            "httpStatus": 200,
+            "passed": true,
+            "expected": {
+              "error": "Unsupported stock response"
+            },
+            "actual": {
+              "error": "Unsupported stock response"
+            }
+          },
+          {
+            "id": "review-null-precedence",
+            "purpose": "reject",
+            "httpStatus": 200,
+            "passed": true,
+            "expected": {
+              "error": "Unsupported stock response"
+            },
+            "actual": {
+              "error": "Unsupported stock response"
+            }
+          },
+          {
+            "id": "review-string-count",
+            "purpose": "reject",
+            "httpStatus": 200,
+            "passed": true,
+            "expected": {
+              "error": "Unsupported stock response"
+            },
+            "actual": {
+              "error": "Unsupported stock response"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "dispatch",
+      "summary": "A critical assignment lost its title, priority and status label.",
+      "attribution": "Actual Bob Shell candidate from the guided condition; independently checked by Contract Repair Desk.",
+      "report": {
+        "version": 1,
+        "kind": "contract-repair-job",
+        "runId": "92541135-41a0-4a2e-9358-d66a0a9a47ff",
+        "generatedAt": "2026-09-25T18:19:52.072Z",
+        "name": "Dispatch queue",
+        "outcome": "verified-repair",
+        "controlsPreserved": true,
+        "manifestHash": "d0affb3af19b686eaefa943e5d9e304271bb75bfc129beab08c53f37e11cb029",
+        "hashes": {
+          "contract.json": "338564f45db443b10c06b831784d921866748f5f2ab40268062f21bee474f047",
+          "baseline.ts": "b7c074b2ee7279185a5397d9d580ba036130485f70b1ffd5a49c97dfda3d2723",
+          "candidate.ts": "b05815bd192f16501f40105ee36ddac3f6784b00e8946a59039f0b47f9605974"
+        },
+        "before": {
+          "pass": 3,
+          "total": 7,
+          "checks": [
+            {
+              "id": "legacy-ticket",
+              "purpose": "preserve",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "value": [
+                  {
+                    "id": "T-1",
+                    "title": "Inspect valve",
+                    "priority": "P2",
+                    "state": "Open"
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "T-1",
+                    "title": "Inspect valve",
+                    "priority": "P2",
+                    "state": "Open"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "title-precedence",
+              "purpose": "preserve",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "value": [
+                  {
+                    "id": "T-2",
+                    "title": "Old",
+                    "priority": "P1",
+                    "state": "Done"
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "T-2",
+                    "title": "Old",
+                    "priority": "P1",
+                    "state": "Done"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "critical-assignment",
+              "purpose": "migration",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "value": [
+                  {
+                    "id": "T-3",
+                    "title": "Emergency inspection",
+                    "priority": "Critical",
+                    "state": "In progress"
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "T-3",
+                    "title": "",
+                    "priority": "Normal",
+                    "state": "Unknown"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "empty-queue",
+              "purpose": "preserve",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "value": []
+              },
+              "actual": {
+                "value": []
+              }
+            },
+            {
+              "id": "unknown-state",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported dispatch response"
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "T-4",
+                    "title": "Check",
+                    "priority": "P1",
+                    "state": "Unknown"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "prototype-state",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported dispatch response"
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "T-5",
+                    "title": "Check",
+                    "priority": "P1",
+                    "state": "Unknown"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "invalid-priority",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported dispatch response"
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "T-6",
+                    "title": "Check",
+                    "priority": "P-1",
+                    "state": "Open"
+                  }
+                ]
+              }
+            }
+          ],
+          "elapsedMs": 94,
+          "failure": null,
+          "diagnostic": ""
+        },
+        "after": {
+          "pass": 7,
+          "total": 7,
+          "checks": [
+            {
+              "id": "legacy-ticket",
+              "purpose": "preserve",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "value": [
+                  {
+                    "id": "T-1",
+                    "title": "Inspect valve",
+                    "priority": "P2",
+                    "state": "Open"
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "T-1",
+                    "title": "Inspect valve",
+                    "priority": "P2",
+                    "state": "Open"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "title-precedence",
+              "purpose": "preserve",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "value": [
+                  {
+                    "id": "T-2",
+                    "title": "Old",
+                    "priority": "P1",
+                    "state": "Done"
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "T-2",
+                    "title": "Old",
+                    "priority": "P1",
+                    "state": "Done"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "critical-assignment",
+              "purpose": "migration",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "value": [
+                  {
+                    "id": "T-3",
+                    "title": "Emergency inspection",
+                    "priority": "Critical",
+                    "state": "In progress"
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "T-3",
+                    "title": "Emergency inspection",
+                    "priority": "Critical",
+                    "state": "In progress"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "empty-queue",
+              "purpose": "preserve",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "value": []
+              },
+              "actual": {
+                "value": []
+              }
+            },
+            {
+              "id": "unknown-state",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "error": "Unsupported dispatch response"
+              },
+              "actual": {
+                "error": "Unsupported dispatch response"
+              }
+            },
+            {
+              "id": "prototype-state",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "error": "Unsupported dispatch response"
+              },
+              "actual": {
+                "error": "Unsupported dispatch response"
+              }
+            },
+            {
+              "id": "invalid-priority",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "error": "Unsupported dispatch response"
+              },
+              "actual": {
+                "error": "Unsupported dispatch response"
+              }
+            }
+          ],
+          "elapsedMs": 103,
+          "failure": null,
+          "diagnostic": ""
+        },
+        "source": {
+          "before": "export function mapResponse(payload: any) {\n  if (!Array.isArray(payload.tickets)) throw new Error('Unsupported dispatch response');\n  return payload.tickets.map((row:any)=>({id:row.id,title:row.title || '',priority:row.priority ? `P${row.priority}` : 'Normal',state:row.state==='open'?'Open':row.state==='done'?'Done':'Unknown'}));\n}\n",
+          "after": "export function mapResponse(payload: any) {\n  if (!Array.isArray(payload.tickets)) throw new Error('Unsupported dispatch response');\n  const STATE_MAP: Record<string, string> = { open: 'Open', done: 'Done', assigned: 'In progress' };\n  const PRIORITY_MAP: Record<number, string> = { 0: 'Critical', 1: 'P1', 2: 'P2', 3: 'P3' };\n  return payload.tickets.map((row: any) => {\n    const title = (row.title && row.title !== '') ? row.title : (row.summary && row.summary !== '') ? row.summary : '';\n    if (!title) throw new Error('Unsupported dispatch response');\n    const priority = PRIORITY_MAP[row.priority as number];\n    if (priority === undefined) throw new Error('Unsupported dispatch response');\n    const state = Object.prototype.hasOwnProperty.call(STATE_MAP, row.state) ? STATE_MAP[row.state] : undefined;\n    if (state === undefined) throw new Error('Unsupported dispatch response');\n    return { id: row.id, title, priority, state };\n  });\n}\n"
+        },
+        "limitations": [
+          "Synthetic HTTP fixtures and a pure TypeScript consumer adapter.",
+          "Recorded execution time is not developer time saved.",
+          "Local pins detect edits, not malicious replacement of both manifest and inputs.",
+          "Run only trusted local code; this is not a hostile-code sandbox."
+        ]
+      },
+      "supplemental": {
+        "id": "dispatch-guided",
+        "kind": "post-study-supplemental-review",
+        "pass": 0,
+        "total": 5,
+        "checks": [
+          {
+            "id": "review-null",
+            "purpose": "reject",
+            "httpStatus": 200,
+            "passed": false,
+            "expected": {
+              "error": "Unsupported dispatch response"
+            },
+            "actual": {
+              "error": "Cannot read properties of null (reading 'tickets')"
+            }
+          },
+          {
+            "id": "review-null-row",
+            "purpose": "reject",
+            "httpStatus": 200,
+            "passed": false,
+            "expected": {
+              "error": "Unsupported dispatch response"
+            },
+            "actual": {
+              "error": "Cannot read properties of null (reading 'title')"
+            }
+          },
+          {
+            "id": "review-missing-id",
+            "purpose": "reject",
+            "httpStatus": 200,
+            "passed": false,
+            "expected": {
+              "error": "Unsupported dispatch response"
+            },
+            "actual": {
+              "value": [
+                {
+                  "title": "Inspect",
+                  "priority": "P1",
+                  "state": "Open"
+                }
+              ]
+            }
+          },
+          {
+            "id": "review-string-priority",
+            "purpose": "reject",
+            "httpStatus": 200,
+            "passed": false,
+            "expected": {
+              "error": "Unsupported dispatch response"
+            },
+            "actual": {
+              "value": [
+                {
+                  "id": "R1",
+                  "title": "Inspect",
+                  "priority": "Critical",
+                  "state": "Open"
+                }
+              ]
+            }
+          },
+          {
+            "id": "review-object-title",
+            "purpose": "reject",
+            "httpStatus": 200,
+            "passed": false,
+            "expected": {
+              "error": "Unsupported dispatch response"
+            },
+            "actual": {
+              "value": [
+                {
+                  "id": "R2",
+                  "title": {
+                    "text": "Inspect"
+                  },
+                  "priority": "P1",
+                  "state": "Open"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "booking",
+      "summary": "A sold-out slot appeared to have one seat. Legacy zero must take precedence over a new field.",
+      "attribution": "Actual Bob Shell candidate from the guided condition; independently checked by Contract Repair Desk.",
+      "report": {
+        "version": 1,
+        "kind": "contract-repair-job",
+        "runId": "b00cffdd-5ce6-495a-a489-264c8050b440",
+        "generatedAt": "2026-09-25T18:19:52.758Z",
+        "name": "Booking capacity",
+        "outcome": "verified-repair",
+        "controlsPreserved": true,
+        "manifestHash": "ac49dbeeba14a109f0dc16bf4ef4fe608be08136d61c7800f642ac2e2ca3aaca",
+        "hashes": {
+          "contract.json": "d50d5090f374a3e5cf448596787821448adb738fd4718812f17cd2a0c79cbefa",
+          "baseline.ts": "084b886e7f670a99cd2b5327406f2f4b44c940a3e20aa46c63e19a559c41b184",
+          "candidate.ts": "2ddd1f9a41354142215f0f12779000cb15d40b5a86db2f3214c12b3827eb6ba7"
+        },
+        "before": {
+          "pass": 2,
+          "total": 7,
+          "checks": [
+            {
+              "id": "legacy-open",
+              "purpose": "preserve",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "value": [
+                  {
+                    "id": "B-1",
+                    "seats": 3,
+                    "bookable": true
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "B-1",
+                    "seats": 3,
+                    "bookable": true
+                  }
+                ]
+              }
+            },
+            {
+              "id": "closed-slot",
+              "purpose": "preserve",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "value": [
+                  {
+                    "id": "B-2",
+                    "seats": 2,
+                    "bookable": false
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "B-2",
+                    "seats": 2,
+                    "bookable": false
+                  }
+                ]
+              }
+            },
+            {
+              "id": "renamed-capacity",
+              "purpose": "migration",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "value": [
+                  {
+                    "id": "B-3",
+                    "seats": 4,
+                    "bookable": true
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "B-3",
+                    "seats": 1,
+                    "bookable": false
+                  }
+                ]
+              }
+            },
+            {
+              "id": "zero-precedence",
+              "purpose": "migration",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "value": [
+                  {
+                    "id": "B-4",
+                    "seats": 0,
+                    "bookable": false
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "B-4",
+                    "seats": 1,
+                    "bookable": true
+                  }
+                ]
+              }
+            },
+            {
+              "id": "missing-seats",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported booking response"
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "B-5",
+                    "seats": 1,
+                    "bookable": true
+                  }
+                ]
+              }
+            },
+            {
+              "id": "unknown-status",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported booking response"
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "B-6",
+                    "seats": 3,
+                    "bookable": false
+                  }
+                ]
+              }
+            },
+            {
+              "id": "null-capacity",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported booking response"
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "B-7",
+                    "seats": 1,
+                    "bookable": false
+                  }
+                ]
+              }
+            }
+          ],
+          "elapsedMs": 100,
+          "failure": null,
+          "diagnostic": ""
+        },
+        "after": {
+          "pass": 7,
+          "total": 7,
+          "checks": [
+            {
+              "id": "legacy-open",
+              "purpose": "preserve",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "value": [
+                  {
+                    "id": "B-1",
+                    "seats": 3,
+                    "bookable": true
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "B-1",
+                    "seats": 3,
+                    "bookable": true
+                  }
+                ]
+              }
+            },
+            {
+              "id": "closed-slot",
+              "purpose": "preserve",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "value": [
+                  {
+                    "id": "B-2",
+                    "seats": 2,
+                    "bookable": false
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "B-2",
+                    "seats": 2,
+                    "bookable": false
+                  }
+                ]
+              }
+            },
+            {
+              "id": "renamed-capacity",
+              "purpose": "migration",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "value": [
+                  {
+                    "id": "B-3",
+                    "seats": 4,
+                    "bookable": true
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "B-3",
+                    "seats": 4,
+                    "bookable": true
+                  }
+                ]
+              }
+            },
+            {
+              "id": "zero-precedence",
+              "purpose": "migration",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "value": [
+                  {
+                    "id": "B-4",
+                    "seats": 0,
+                    "bookable": false
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "B-4",
+                    "seats": 0,
+                    "bookable": false
+                  }
+                ]
+              }
+            },
+            {
+              "id": "missing-seats",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "error": "Unsupported booking response"
+              },
+              "actual": {
+                "error": "Unsupported booking response"
+              }
+            },
+            {
+              "id": "unknown-status",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "error": "Unsupported booking response"
+              },
+              "actual": {
+                "error": "Unsupported booking response"
+              }
+            },
+            {
+              "id": "null-capacity",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "error": "Unsupported booking response"
+              },
+              "actual": {
+                "error": "Unsupported booking response"
+              }
+            }
+          ],
+          "elapsedMs": 106,
+          "failure": null,
+          "diagnostic": ""
+        },
+        "source": {
+          "before": "export function mapResponse(payload: any) {\n  if (!Array.isArray(payload.slots)) throw new Error('Unsupported booking response');\n  return payload.slots.map((row:any)=>({id:row.id,seats:row.remaining || 1,bookable:row.status==='open'}));\n}\n",
+          "after": "export function mapResponse(payload: any) {\n  if (!Array.isArray(payload.slots)) throw new Error('Unsupported booking response');\n  return payload.slots.map((row: any) => {\n    // Determine seats: remaining takes precedence (even when zero); fall back to capacityLeft.\n    let seats: number;\n    if (row.remaining !== undefined && row.remaining !== null) {\n      if (typeof row.remaining !== 'number' || !Number.isInteger(row.remaining) || row.remaining < 0) {\n        throw new Error('Unsupported booking response');\n      }\n      seats = row.remaining;\n    } else if (row.capacityLeft !== undefined && row.capacityLeft !== null) {\n      if (typeof row.capacityLeft !== 'number' || !Number.isInteger(row.capacityLeft) || row.capacityLeft < 0) {\n        throw new Error('Unsupported booking response');\n      }\n      seats = row.capacityLeft;\n    } else {\n      throw new Error('Unsupported booking response');\n    }\n\n    // Only open and accepting are valid bookable statuses; closed is valid but not bookable.\n    const validStatuses = ['open', 'accepting', 'closed'];\n    if (!validStatuses.includes(row.status)) {\n      throw new Error('Unsupported booking response');\n    }\n\n    const bookable = (row.status === 'open' || row.status === 'accepting') && seats > 0;\n    return { id: row.id, seats, bookable };\n  });\n}\n"
+        },
+        "limitations": [
+          "Synthetic HTTP fixtures and a pure TypeScript consumer adapter.",
+          "Recorded execution time is not developer time saved.",
+          "Local pins detect edits, not malicious replacement of both manifest and inputs.",
+          "Run only trusted local code; this is not a hostile-code sandbox."
+        ]
+      },
+      "supplemental": {
+        "id": "booking-guided",
+        "kind": "post-study-supplemental-review",
+        "pass": 0,
+        "total": 4,
+        "checks": [
+          {
+            "id": "review-null",
+            "purpose": "reject",
+            "httpStatus": 200,
+            "passed": false,
+            "expected": {
+              "error": "Unsupported booking response"
+            },
+            "actual": {
+              "error": "Cannot read properties of null (reading 'slots')"
+            }
+          },
+          {
+            "id": "review-null-row",
+            "purpose": "reject",
+            "httpStatus": 200,
+            "passed": false,
+            "expected": {
+              "error": "Unsupported booking response"
+            },
+            "actual": {
+              "error": "Cannot read properties of null (reading 'remaining')"
+            }
+          },
+          {
+            "id": "review-missing-id",
+            "purpose": "reject",
+            "httpStatus": 200,
+            "passed": false,
+            "expected": {
+              "error": "Unsupported booking response"
+            },
+            "actual": {
+              "value": [
+                {
+                  "seats": 2,
+                  "bookable": true
+                }
+              ]
+            }
+          },
+          {
+            "id": "review-null-precedence",
+            "purpose": "reject",
+            "httpStatus": 200,
+            "passed": false,
+            "expected": {
+              "error": "Unsupported booking response"
+            },
+            "actual": {
+              "value": [
+                {
+                  "id": "R1",
+                  "seats": 4,
+                  "bookable": true
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "guards": [
+    {
+      "id": "regression",
+      "title": "The new field works. The old client breaks.",
+      "description": "A migration-only candidate passes the renamed-data cases but fails preserved legacy cases.",
+      "outcome": "not-repaired",
+      "report": {
+        "version": 1,
+        "kind": "contract-repair-job",
+        "runId": "5a28b930-60aa-4cc6-b8bf-d523eee0651a",
+        "generatedAt": "2026-09-25T18:19:52.997Z",
+        "name": "Warehouse availability",
+        "outcome": "not-repaired",
+        "controlsPreserved": false,
+        "manifestHash": "d54952632bbf111aacd4dcc51ee30aff8bda08b13e3b263694c751dd44366ae3",
+        "hashes": {
+          "contract.json": "173a70fa85c76b31711f764b7dd1767604553433f000a18d9ee81e600c86b6a6",
+          "baseline.ts": "924b909f85180ae4193a2893a8126d5960b4b43225ca7c26951ccd994f6ab21c",
+          "candidate.ts": "b465c96bacdb1196068ecefb7bf8ace58a20e55191b0a0b43e4fcbc10a9b0c92"
+        },
+        "before": {
+          "pass": 3,
+          "total": 7,
+          "checks": [
+            {
+              "id": "legacy-stock",
+              "purpose": "preserve",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "value": [
+                  {
+                    "sku": "S-1",
+                    "available": 20,
+                    "label": "Cable"
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "sku": "S-1",
+                    "available": 20,
+                    "label": "Cable"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mixed-precedence",
+              "purpose": "preserve",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "value": [
+                  {
+                    "sku": "S-2",
+                    "available": 3,
+                    "label": "Legacy"
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "sku": "S-2",
+                    "available": 3,
+                    "label": "Legacy"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "zero-means-out-of-stock",
+              "purpose": "migration",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "value": [
+                  {
+                    "sku": "S-3",
+                    "available": 0,
+                    "label": "Adapter"
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "sku": "S-3",
+                    "available": 20,
+                    "label": ""
+                  }
+                ]
+              }
+            },
+            {
+              "id": "renamed-nonzero",
+              "purpose": "migration",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "value": [
+                  {
+                    "sku": "S-4",
+                    "available": 7,
+                    "label": "Hub"
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "sku": "S-4",
+                    "available": 20,
+                    "label": ""
+                  }
+                ]
+              }
+            },
+            {
+              "id": "no-guessed-stock",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported stock response"
+              },
+              "actual": {
+                "value": [
+                  {
+                    "sku": "S-5",
+                    "available": 20,
+                    "label": "Unknown"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "negative-stock",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported stock response"
+              },
+              "actual": {
+                "value": [
+                  {
+                    "sku": "S-6",
+                    "available": -1,
+                    "label": "Invalid"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "wrong-envelope",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "error": "Unsupported stock response"
+              },
+              "actual": {
+                "error": "Unsupported stock response"
+              }
+            }
+          ],
+          "elapsedMs": 101,
+          "failure": null,
+          "diagnostic": ""
+        },
+        "after": {
+          "pass": 5,
+          "total": 7,
+          "checks": [
+            {
+              "id": "legacy-stock",
+              "purpose": "preserve",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "value": [
+                  {
+                    "sku": "S-1",
+                    "available": 20,
+                    "label": "Cable"
+                  }
+                ]
+              },
+              "actual": {
+                "error": "Unsupported stock response"
+              }
+            },
+            {
+              "id": "mixed-precedence",
+              "purpose": "preserve",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "value": [
+                  {
+                    "sku": "S-2",
+                    "available": 3,
+                    "label": "Legacy"
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "sku": "S-2",
+                    "available": 9,
+                    "label": "New"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "zero-means-out-of-stock",
+              "purpose": "migration",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "value": [
+                  {
+                    "sku": "S-3",
+                    "available": 0,
+                    "label": "Adapter"
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "sku": "S-3",
+                    "available": 0,
+                    "label": "Adapter"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "renamed-nonzero",
+              "purpose": "migration",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "value": [
+                  {
+                    "sku": "S-4",
+                    "available": 7,
+                    "label": "Hub"
+                  }
+                ]
+              },
+              "actual": {
+                "value": [
+                  {
+                    "sku": "S-4",
+                    "available": 7,
+                    "label": "Hub"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "no-guessed-stock",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "error": "Unsupported stock response"
+              },
+              "actual": {
+                "error": "Unsupported stock response"
+              }
+            },
+            {
+              "id": "negative-stock",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "error": "Unsupported stock response"
+              },
+              "actual": {
+                "error": "Unsupported stock response"
+              }
+            },
+            {
+              "id": "wrong-envelope",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "error": "Unsupported stock response"
+              },
+              "actual": {
+                "error": "Unsupported stock response"
+              }
+            }
+          ],
+          "elapsedMs": 107,
+          "failure": null,
+          "diagnostic": ""
+        },
+        "source": {
+          "before": "export function mapResponse(payload: any) {\n  if (!Array.isArray(payload.items)) throw new Error('Unsupported stock response');\n  return payload.items.map((item: any) => ({sku:item.sku,available:item.available || 20,label:item.name || ''}));\n}\n",
+          "after": "export function mapResponse(p){ const fail=()=>{throw new Error('Unsupported stock response')};if(!p||!Array.isArray(p.items))return fail();return p.items.map(x=>{if(!x||typeof x.sku!=='string'||typeof x.displayName!=='string'||!Number.isInteger(x.availableUnits)||x.availableUnits<0)return fail();return {sku:x.sku,available:x.availableUnits,label:x.displayName};});}"
+        },
+        "limitations": [
+          "Synthetic HTTP fixtures and a pure TypeScript consumer adapter.",
+          "Recorded execution time is not developer time saved.",
+          "Local pins detect edits, not malicious replacement of both manifest and inputs.",
+          "Run only trusted local code; this is not a hostile-code sandbox."
+        ]
+      }
+    },
+    {
+      "id": "tamper",
+      "title": "Changing the expectation is not a repair.",
+      "description": "An edited contract is rejected before the candidate runs.",
+      "outcome": "blocked: pinned contract changed"
+    },
+    {
+      "id": "timeout",
+      "title": "No result is not a pass.",
+      "description": "A non-terminating candidate is stopped. Missing evidence cannot produce a verified repair.",
+      "outcome": "inconclusive"
+    }
+  ],
+  "benchmark": {
+    "scope": "Three synthetic migrations, two fresh Bob Shell conditions each. Read/edit-only candidate generation with independent verification.",
+    "protocol": {
+      "version": 1,
+      "registeredAt": "2026-09-25T18:04:43.986Z",
+      "kind": "small-sample-controlled-Bob-Shell-repair-comparison",
+      "cases": [
+        "stock",
+        "dispatch",
+        "booking"
+      ],
+      "order": [
+        [
+          "stock",
+          "plain"
+        ],
+        [
+          "stock",
+          "guided"
+        ],
+        [
+          "dispatch",
+          "guided"
+        ],
+        [
+          "dispatch",
+          "plain"
+        ],
+        [
+          "booking",
+          "plain"
+        ],
+        [
+          "booking",
+          "guided"
+        ]
+      ],
+      "replicatesPerCondition": 1,
+      "model": "Bob Shell 2.0.5 default agent; same environment; explicit model selection unavailable in run help",
+      "limits": {
+        "maxBobcoinsPerRun": 1,
+        "maxTurnsPerRun": 10,
+        "runs": 6
+      },
+      "tools": "read/edit only; execute, MCP, skills, subagents and mode switching disabled in both conditions",
+      "commonInformation": "identical contract, baseline source and baseline execution report",
+      "difference": "guided receives a compact job checklist and failure index; no solution supplied",
+      "metrics": [
+        "fixed-check correctness",
+        "legacy preservation",
+        "wall duration including verification",
+        "reported Bobcoins",
+        "tool calls",
+        "changed pinned inputs"
+      ],
+      "humanMetrics": "Human time savings and usability are not measured. Runs orchestrated by Codex; no human editing during runs.",
+      "stop": "Do not retry failed model runs. Record cost/turn failures as incomplete. Do not modify contract after seeing outcomes.",
+      "interpretation": "Three deliberately constructed migrations; one fresh run per condition. Not a statistically generalizable productivity benchmark or an IDE comparison."
+    },
+    "conclusion": "Both conditions passed all recorded checks in every case. This study establishes no correctness advantage for the prepared workflow. Elapsed times and costs are observations, not measured human productivity gains.",
+    "runs": [
+      {
+        "id": "stock-plain",
+        "caseId": "stock",
+        "condition": "plain",
+        "status": "success",
+        "pass": 7,
+        "total": 7,
+        "outcome": "verified-repair",
+        "controlsPreserved": true,
+        "cost": 0.12568800000000002,
+        "toolCalls": 6,
+        "modelMs": 32923,
+        "prepareMs": 595,
+        "verifyMs": 247,
+        "totalMs": 33765,
+        "contractHash": "173a70fa85c76b31711f764b7dd1767604553433f000a18d9ee81e600c86b6a6",
+        "candidateHash": "aae163b7986db8c96aed2ba3c9786a8f036932f7b841444532ba9d9e7ac3afc6",
+        "supplemental": {
+          "id": "stock-plain",
+          "kind": "post-study-supplemental-review",
+          "pass": 2,
+          "total": 4,
+          "checks": [
+            {
+              "id": "review-null",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported stock response"
+              },
+              "actual": {
+                "error": "Cannot read properties of null (reading 'items')"
+              }
+            },
+            {
+              "id": "review-null-row",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported stock response"
+              },
+              "actual": {
+                "error": "Cannot read properties of null (reading 'name')"
+              }
+            },
+            {
+              "id": "review-null-precedence",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "error": "Unsupported stock response"
+              },
+              "actual": {
+                "error": "Unsupported stock response"
+              }
+            },
+            {
+              "id": "review-string-count",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "error": "Unsupported stock response"
+              },
+              "actual": {
+                "error": "Unsupported stock response"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "stock-guided",
+        "caseId": "stock",
+        "condition": "guided",
+        "status": "success",
+        "pass": 7,
+        "total": 7,
+        "outcome": "verified-repair",
+        "controlsPreserved": true,
+        "cost": 0.101154,
+        "toolCalls": 6,
+        "modelMs": 30636,
+        "prepareMs": 387,
+        "verifyMs": 222,
+        "totalMs": 31245,
+        "contractHash": "173a70fa85c76b31711f764b7dd1767604553433f000a18d9ee81e600c86b6a6",
+        "candidateHash": "fff06353574b312031d05f7d7076256140ff618eb6f37db9b801495d5af69514",
+        "supplemental": {
+          "id": "stock-guided",
+          "kind": "post-study-supplemental-review",
+          "pass": 2,
+          "total": 4,
+          "checks": [
+            {
+              "id": "review-null",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported stock response"
+              },
+              "actual": {
+                "error": "Cannot read properties of null (reading 'items')"
+              }
+            },
+            {
+              "id": "review-null-row",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported stock response"
+              },
+              "actual": {
+                "error": "Cannot use 'in' operator to search for 'available' in null"
+              }
+            },
+            {
+              "id": "review-null-precedence",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "error": "Unsupported stock response"
+              },
+              "actual": {
+                "error": "Unsupported stock response"
+              }
+            },
+            {
+              "id": "review-string-count",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "error": "Unsupported stock response"
+              },
+              "actual": {
+                "error": "Unsupported stock response"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "dispatch-guided",
+        "caseId": "dispatch",
+        "condition": "guided",
+        "status": "success",
+        "pass": 7,
+        "total": 7,
+        "outcome": "verified-repair",
+        "controlsPreserved": true,
+        "cost": 0.10241,
+        "toolCalls": 5,
+        "modelMs": 34699,
+        "prepareMs": 223,
+        "verifyMs": 213,
+        "totalMs": 35135,
+        "contractHash": "338564f45db443b10c06b831784d921866748f5f2ab40268062f21bee474f047",
+        "candidateHash": "b05815bd192f16501f40105ee36ddac3f6784b00e8946a59039f0b47f9605974",
+        "supplemental": {
+          "id": "dispatch-guided",
+          "kind": "post-study-supplemental-review",
+          "pass": 0,
+          "total": 5,
+          "checks": [
+            {
+              "id": "review-null",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported dispatch response"
+              },
+              "actual": {
+                "error": "Cannot read properties of null (reading 'tickets')"
+              }
+            },
+            {
+              "id": "review-null-row",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported dispatch response"
+              },
+              "actual": {
+                "error": "Cannot read properties of null (reading 'title')"
+              }
+            },
+            {
+              "id": "review-missing-id",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported dispatch response"
+              },
+              "actual": {
+                "value": [
+                  {
+                    "title": "Inspect",
+                    "priority": "P1",
+                    "state": "Open"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "review-string-priority",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported dispatch response"
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "R1",
+                    "title": "Inspect",
+                    "priority": "Critical",
+                    "state": "Open"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "review-object-title",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported dispatch response"
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "R2",
+                    "title": {
+                      "text": "Inspect"
+                    },
+                    "priority": "P1",
+                    "state": "Open"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "dispatch-plain",
+        "caseId": "dispatch",
+        "condition": "plain",
+        "status": "success",
+        "pass": 7,
+        "total": 7,
+        "outcome": "verified-repair",
+        "controlsPreserved": true,
+        "cost": 0.098406,
+        "toolCalls": 5,
+        "modelMs": 29469,
+        "prepareMs": 202,
+        "verifyMs": 238,
+        "totalMs": 29909,
+        "contractHash": "338564f45db443b10c06b831784d921866748f5f2ab40268062f21bee474f047",
+        "candidateHash": "4a27b5259196f93e7585a10a3f42f50848febdec7ed1897e9152d5d2d2255e81",
+        "supplemental": {
+          "id": "dispatch-plain",
+          "kind": "post-study-supplemental-review",
+          "pass": 0,
+          "total": 5,
+          "checks": [
+            {
+              "id": "review-null",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported dispatch response"
+              },
+              "actual": {
+                "error": "Cannot read properties of null (reading 'tickets')"
+              }
+            },
+            {
+              "id": "review-null-row",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported dispatch response"
+              },
+              "actual": {
+                "error": "Cannot read properties of null (reading 'title')"
+              }
+            },
+            {
+              "id": "review-missing-id",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported dispatch response"
+              },
+              "actual": {
+                "value": [
+                  {
+                    "title": "Inspect",
+                    "priority": "P1",
+                    "state": "Open"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "review-string-priority",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported dispatch response"
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "R1",
+                    "title": "Inspect",
+                    "priority": "Critical",
+                    "state": "Open"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "review-object-title",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported dispatch response"
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "R2",
+                    "title": {
+                      "text": "Inspect"
+                    },
+                    "priority": "P1",
+                    "state": "Open"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "booking-plain",
+        "caseId": "booking",
+        "condition": "plain",
+        "status": "success",
+        "pass": 7,
+        "total": 7,
+        "outcome": "verified-repair",
+        "controlsPreserved": true,
+        "cost": 0.09971,
+        "toolCalls": 5,
+        "modelMs": 33276,
+        "prepareMs": 208,
+        "verifyMs": 220,
+        "totalMs": 33704,
+        "contractHash": "d50d5090f374a3e5cf448596787821448adb738fd4718812f17cd2a0c79cbefa",
+        "candidateHash": "4b98e56bd0975f4deaee51182e12468c89160d6c8be3ab5a7918696fab145c25",
+        "supplemental": {
+          "id": "booking-plain",
+          "kind": "post-study-supplemental-review",
+          "pass": 1,
+          "total": 4,
+          "checks": [
+            {
+              "id": "review-null",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported booking response"
+              },
+              "actual": {
+                "error": "Cannot read properties of null (reading 'slots')"
+              }
+            },
+            {
+              "id": "review-null-row",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported booking response"
+              },
+              "actual": {
+                "error": "Cannot read properties of null (reading 'remaining')"
+              }
+            },
+            {
+              "id": "review-missing-id",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported booking response"
+              },
+              "actual": {
+                "value": [
+                  {
+                    "seats": 2,
+                    "bookable": true
+                  }
+                ]
+              }
+            },
+            {
+              "id": "review-null-precedence",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": true,
+              "expected": {
+                "error": "Unsupported booking response"
+              },
+              "actual": {
+                "error": "Unsupported booking response"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "id": "booking-guided",
+        "caseId": "booking",
+        "condition": "guided",
+        "status": "success",
+        "pass": 7,
+        "total": 7,
+        "outcome": "verified-repair",
+        "controlsPreserved": true,
+        "cost": 0.13419999999999999,
+        "toolCalls": 6,
+        "modelMs": 29929,
+        "prepareMs": 197,
+        "verifyMs": 224,
+        "totalMs": 30350,
+        "contractHash": "d50d5090f374a3e5cf448596787821448adb738fd4718812f17cd2a0c79cbefa",
+        "candidateHash": "2ddd1f9a41354142215f0f12779000cb15d40b5a86db2f3214c12b3827eb6ba7",
+        "supplemental": {
+          "id": "booking-guided",
+          "kind": "post-study-supplemental-review",
+          "pass": 0,
+          "total": 4,
+          "checks": [
+            {
+              "id": "review-null",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported booking response"
+              },
+              "actual": {
+                "error": "Cannot read properties of null (reading 'slots')"
+              }
+            },
+            {
+              "id": "review-null-row",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported booking response"
+              },
+              "actual": {
+                "error": "Cannot read properties of null (reading 'remaining')"
+              }
+            },
+            {
+              "id": "review-missing-id",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported booking response"
+              },
+              "actual": {
+                "value": [
+                  {
+                    "seats": 2,
+                    "bookable": true
+                  }
+                ]
+              }
+            },
+            {
+              "id": "review-null-precedence",
+              "purpose": "reject",
+              "httpStatus": 200,
+              "passed": false,
+              "expected": {
+                "error": "Unsupported booking response"
+              },
+              "actual": {
+                "value": [
+                  {
+                    "id": "R1",
+                    "seats": 4,
+                    "bookable": true
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "limitations": [
+      "One run per condition per case.",
+      "Local work and an IDE session continued during runs; wall time is not a controlled performance benchmark.",
+      "No human usability or active work time was measured.",
+      "The compact guide reorganizes the same inputs; it provides no reference solution."
+    ],
+    "supplementalNote": "Post-study boundary review was added after observing results. It is reported separately and is not a preregistered or independent holdout benchmark. Passing seven sampled checks did not cover the entire written contract."
+  }
+}

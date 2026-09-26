@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "kind": "boundary-review",
+  "name": "stock boundary review",
+  "basis": "The existing requirements demand an items array, a valid row, non-empty sku/label and non-negative integer availability. Null or string quantities are not integers. Explicit legacy availability takes precedence.",
+  "checks": [
+    {
+      "id": "review-null",
+      "purpose": "reject",
+      "input": null,
+      "error": "Unsupported stock response"
+    },
+    {
+      "id": "review-null-row",
+      "purpose": "reject",
+      "input": {
+        "items": [
+          null
+        ]
+      },
+      "error": "Unsupported stock response"
+    },
+    {
+      "id": "review-null-precedence",
+      "purpose": "reject",
+      "input": {
+        "items": [
+          {
+            "sku": "R1",
+            "name": "Item",
+            "available": null,
+            "availableUnits": 5
+          }
+        ]
+      },
+      "error": "Unsupported stock response"
+    },
+    {
+      "id": "review-string-count",
+      "purpose": "reject",
+      "input": {
+        "items": [
+          {
+            "sku": "R2",
+            "name": "Item",
+            "available": "3"
+          }
+        ]
+      },
+      "error": "Unsupported stock response"
+    }
+  ]
+}

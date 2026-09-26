@@ -1,0 +1,23 @@
+[
+  "evidence/anonymous-observation.json",
+  "evidence/benchmark-booking-guided.json",
+  "evidence/benchmark-booking-plain.json",
+  "evidence/benchmark-dispatch-guided.json",
+  "evidence/benchmark-dispatch-plain.json",
+  "evidence/benchmark-stock-guided.json",
+  "evidence/benchmark-stock-plain.json",
+  "evidence/ide-stock.json",
+  "evidence/latest.json",
+  "evidence/preparation-lab.json",
+  "evidence/repair-lab.json",
+  "evidence/report.html",
+  "evidence/review-gate.json",
+  "evidence/suite.html",
+  "evidence/suite.json",
+  "fixtures/additive.json",
+  "fixtures/baseline.json",
+  "fixtures/renamed-title.json",
+  "fixtures/status-enum.json",
+  "fixtures/unsupported.json",
+  "fixtures/zero-priority.json"
+]

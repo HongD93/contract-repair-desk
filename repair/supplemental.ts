@@ -1,0 +1,7 @@
+// Added after the initial study. Keep these checks separate from its registered outcomes.
+const reject=(id:string,input:unknown,error:string)=>({id,purpose:'reject' as const,input,error});
+export const supplemental = {
+ stock:[reject('review-null',null,'Unsupported stock response'),reject('review-null-row',{items:[null]},'Unsupported stock response'),reject('review-null-precedence',{items:[{sku:'R1',name:'Item',available:null,availableUnits:5}]},'Unsupported stock response'),reject('review-string-count',{items:[{sku:'R2',name:'Item',available:'3'}]},'Unsupported stock response')],
+ dispatch:[reject('review-null',null,'Unsupported dispatch response'),reject('review-null-row',{tickets:[null]},'Unsupported dispatch response'),reject('review-missing-id',{tickets:[{title:'Inspect',priority:1,state:'open'}]},'Unsupported dispatch response'),reject('review-string-priority',{tickets:[{id:'R1',title:'Inspect',priority:'0',state:'open'}]},'Unsupported dispatch response'),reject('review-object-title',{tickets:[{id:'R2',title:{text:'Inspect'},priority:1,state:'open'}]},'Unsupported dispatch response')],
+ booking:[reject('review-null',null,'Unsupported booking response'),reject('review-null-row',{slots:[null]},'Unsupported booking response'),reject('review-missing-id',{slots:[{remaining:2,status:'open'}]},'Unsupported booking response'),reject('review-null-precedence',{slots:[{id:'R1',remaining:null,capacityLeft:4,status:'accepting'}]},'Unsupported booking response')]
+};

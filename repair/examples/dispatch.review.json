@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "kind": "boundary-review",
+  "name": "dispatch boundary review",
+  "basis": "The existing requirements demand a tickets array and non-empty id/title, integer priority, and supported status. Missing identifiers, object titles and string priority values violate that contract.",
+  "checks": [
+    {
+      "id": "review-null",
+      "purpose": "reject",
+      "input": null,
+      "error": "Unsupported dispatch response"
+    },
+    {
+      "id": "review-null-row",
+      "purpose": "reject",
+      "input": {
+        "tickets": [
+          null
+        ]
+      },
+      "error": "Unsupported dispatch response"
+    },
+    {
+      "id": "review-missing-id",
+      "purpose": "reject",
+      "input": {
+        "tickets": [
+          {
+            "title": "Inspect",
+            "priority": 1,
+            "state": "open"
+          }
+        ]
+      },
+      "error": "Unsupported dispatch response"
+    },
+    {
+      "id": "review-string-priority",
+      "purpose": "reject",
+      "input": {
+        "tickets": [
+          {
+            "id": "R1",
+            "title": "Inspect",
+            "priority": "0",
+            "state": "open"
+          }
+        ]
+      },
+      "error": "Unsupported dispatch response"
+    },
+    {
+      "id": "review-object-title",
+      "purpose": "reject",
+      "input": {
+        "tickets": [
+          {
+            "id": "R2",
+            "title": {
+              "text": "Inspect"
+            },
+            "priority": 1,
+            "state": "open"
+          }
+        ]
+      },
+      "error": "Unsupported dispatch response"
+    }
+  ]
+}

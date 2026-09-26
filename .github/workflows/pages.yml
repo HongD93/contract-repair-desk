@@ -2,14 +2,16 @@ name: Verify and publish demo
 
 on:
   push:
-    branches: [main]
+    branches: [dev, main]
+  pull_request:
+    branches: [dev, main]
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: pages
+  group: pages-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -23,16 +25,19 @@ jobs:
           cache: npm
           cache-dependency-path: web/package-lock.json
       - run: npm test
-      - run: npm run evidence
+      - run: npm run evidence:all
       - run: npm --prefix web ci
       - run: npm --prefix web run build
         env:
           BASE_PATH: /contract-repair-desk/
       - uses: actions/configure-pages@v5
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
       - uses: actions/upload-pages-artifact@v3
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         with:
           path: web/dist
   deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     permissions:

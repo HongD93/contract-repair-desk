@@ -7,7 +7,11 @@
     "node": ">=24.15.0"
   },
   "scripts": {
-    "test": "node --test test/consumer.test.ts test/evidence.test.ts test/suite.test.ts test/view-model.test.ts test/suite-evidence.test.ts",
-    "evidence": "node workflow/publish.ts"
+    "test": "node --test test/consumer.test.ts test/evidence.test.ts test/suite.test.ts test/view-model.test.ts test/suite-evidence.test.ts test/repair.test.ts test/recorded-repairs.test.ts test/review.test.ts test/proposal-mutation.test.ts test/public-evidence.test.ts",
+    "evidence": "node workflow/publish.ts",
+    "review:evidence": "node repair/publish-review.ts",
+    "preparation:evidence": "node repair/publish-preparation.ts",
+    "public:check": "node repair/check-public.ts",
+    "evidence:all": "npm run evidence && npm run review:evidence && npm run preparation:evidence && npm run public:check"
   }
 }

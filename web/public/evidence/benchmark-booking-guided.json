@@ -1,0 +1,325 @@
+{
+  "version": 1,
+  "kind": "contract-repair-job",
+  "runId": "b00cffdd-5ce6-495a-a489-264c8050b440",
+  "generatedAt": "2026-09-25T18:19:52.758Z",
+  "name": "Booking capacity",
+  "outcome": "verified-repair",
+  "controlsPreserved": true,
+  "manifestHash": "ac49dbeeba14a109f0dc16bf4ef4fe608be08136d61c7800f642ac2e2ca3aaca",
+  "hashes": {
+    "contract.json": "d50d5090f374a3e5cf448596787821448adb738fd4718812f17cd2a0c79cbefa",
+    "baseline.ts": "084b886e7f670a99cd2b5327406f2f4b44c940a3e20aa46c63e19a559c41b184",
+    "candidate.ts": "2ddd1f9a41354142215f0f12779000cb15d40b5a86db2f3214c12b3827eb6ba7"
+  },
+  "before": {
+    "pass": 2,
+    "total": 7,
+    "checks": [
+      {
+        "id": "legacy-open",
+        "purpose": "preserve",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "value": [
+            {
+              "id": "B-1",
+              "seats": 3,
+              "bookable": true
+            }
+          ]
+        },
+        "actual": {
+          "value": [
+            {
+              "id": "B-1",
+              "seats": 3,
+              "bookable": true
+            }
+          ]
+        }
+      },
+      {
+        "id": "closed-slot",
+        "purpose": "preserve",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "value": [
+            {
+              "id": "B-2",
+              "seats": 2,
+              "bookable": false
+            }
+          ]
+        },
+        "actual": {
+          "value": [
+            {
+              "id": "B-2",
+              "seats": 2,
+              "bookable": false
+            }
+          ]
+        }
+      },
+      {
+        "id": "renamed-capacity",
+        "purpose": "migration",
+        "httpStatus": 200,
+        "passed": false,
+        "expected": {
+          "value": [
+            {
+              "id": "B-3",
+              "seats": 4,
+              "bookable": true
+            }
+          ]
+        },
+        "actual": {
+          "value": [
+            {
+              "id": "B-3",
+              "seats": 1,
+              "bookable": false
+            }
+          ]
+        }
+      },
+      {
+        "id": "zero-precedence",
+        "purpose": "migration",
+        "httpStatus": 200,
+        "passed": false,
+        "expected": {
+          "value": [
+            {
+              "id": "B-4",
+              "seats": 0,
+              "bookable": false
+            }
+          ]
+        },
+        "actual": {
+          "value": [
+            {
+              "id": "B-4",
+              "seats": 1,
+              "bookable": true
+            }
+          ]
+        }
+      },
+      {
+        "id": "missing-seats",
+        "purpose": "reject",
+        "httpStatus": 200,
+        "passed": false,
+        "expected": {
+          "error": "Unsupported booking response"
+        },
+        "actual": {
+          "value": [
+            {
+              "id": "B-5",
+              "seats": 1,
+              "bookable": true
+            }
+          ]
+        }
+      },
+      {
+        "id": "unknown-status",
+        "purpose": "reject",
+        "httpStatus": 200,
+        "passed": false,
+        "expected": {
+          "error": "Unsupported booking response"
+        },
+        "actual": {
+          "value": [
+            {
+              "id": "B-6",
+              "seats": 3,
+              "bookable": false
+            }
+          ]
+        }
+      },
+      {
+        "id": "null-capacity",
+        "purpose": "reject",
+        "httpStatus": 200,
+        "passed": false,
+        "expected": {
+          "error": "Unsupported booking response"
+        },
+        "actual": {
+          "value": [
+            {
+              "id": "B-7",
+              "seats": 1,
+              "bookable": false
+            }
+          ]
+        }
+      }
+    ],
+    "elapsedMs": 100,
+    "failure": null,
+    "diagnostic": ""
+  },
+  "after": {
+    "pass": 7,
+    "total": 7,
+    "checks": [
+      {
+        "id": "legacy-open",
+        "purpose": "preserve",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "value": [
+            {
+              "id": "B-1",
+              "seats": 3,
+              "bookable": true
+            }
+          ]
+        },
+        "actual": {
+          "value": [
+            {
+              "id": "B-1",
+              "seats": 3,
+              "bookable": true
+            }
+          ]
+        }
+      },
+      {
+        "id": "closed-slot",
+        "purpose": "preserve",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "value": [
+            {
+              "id": "B-2",
+              "seats": 2,
+              "bookable": false
+            }
+          ]
+        },
+        "actual": {
+          "value": [
+            {
+              "id": "B-2",
+              "seats": 2,
+              "bookable": false
+            }
+          ]
+        }
+      },
+      {
+        "id": "renamed-capacity",
+        "purpose": "migration",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "value": [
+            {
+              "id": "B-3",
+              "seats": 4,
+              "bookable": true
+            }
+          ]
+        },
+        "actual": {
+          "value": [
+            {
+              "id": "B-3",
+              "seats": 4,
+              "bookable": true
+            }
+          ]
+        }
+      },
+      {
+        "id": "zero-precedence",
+        "purpose": "migration",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "value": [
+            {
+              "id": "B-4",
+              "seats": 0,
+              "bookable": false
+            }
+          ]
+        },
+        "actual": {
+          "value": [
+            {
+              "id": "B-4",
+              "seats": 0,
+              "bookable": false
+            }
+          ]
+        }
+      },
+      {
+        "id": "missing-seats",
+        "purpose": "reject",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "error": "Unsupported booking response"
+        },
+        "actual": {
+          "error": "Unsupported booking response"
+        }
+      },
+      {
+        "id": "unknown-status",
+        "purpose": "reject",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "error": "Unsupported booking response"
+        },
+        "actual": {
+          "error": "Unsupported booking response"
+        }
+      },
+      {
+        "id": "null-capacity",
+        "purpose": "reject",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "error": "Unsupported booking response"
+        },
+        "actual": {
+          "error": "Unsupported booking response"
+        }
+      }
+    ],
+    "elapsedMs": 106,
+    "failure": null,
+    "diagnostic": ""
+  },
+  "source": {
+    "before": "export function mapResponse(payload: any) {\n  if (!Array.isArray(payload.slots)) throw new Error('Unsupported booking response');\n  return payload.slots.map((row:any)=>({id:row.id,seats:row.remaining || 1,bookable:row.status==='open'}));\n}\n",
+    "after": "export function mapResponse(payload: any) {\n  if (!Array.isArray(payload.slots)) throw new Error('Unsupported booking response');\n  return payload.slots.map((row: any) => {\n    // Determine seats: remaining takes precedence (even when zero); fall back to capacityLeft.\n    let seats: number;\n    if (row.remaining !== undefined && row.remaining !== null) {\n      if (typeof row.remaining !== 'number' || !Number.isInteger(row.remaining) || row.remaining < 0) {\n        throw new Error('Unsupported booking response');\n      }\n      seats = row.remaining;\n    } else if (row.capacityLeft !== undefined && row.capacityLeft !== null) {\n      if (typeof row.capacityLeft !== 'number' || !Number.isInteger(row.capacityLeft) || row.capacityLeft < 0) {\n        throw new Error('Unsupported booking response');\n      }\n      seats = row.capacityLeft;\n    } else {\n      throw new Error('Unsupported booking response');\n    }\n\n    // Only open and accepting are valid bookable statuses; closed is valid but not bookable.\n    const validStatuses = ['open', 'accepting', 'closed'];\n    if (!validStatuses.includes(row.status)) {\n      throw new Error('Unsupported booking response');\n    }\n\n    const bookable = (row.status === 'open' || row.status === 'accepting') && seats > 0;\n    return { id: row.id, seats, bookable };\n  });\n}\n"
+  },
+  "limitations": [
+    "Synthetic HTTP fixtures and a pure TypeScript consumer adapter.",
+    "Recorded execution time is not developer time saved.",
+    "Local pins detect edits, not malicious replacement of both manifest and inputs.",
+    "Run only trusted local code; this is not a hostile-code sandbox."
+  ]
+}
