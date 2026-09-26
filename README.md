@@ -214,7 +214,9 @@ account balance. Shell supplements the actual IDE work.
 The GitHub Pages workflow reruns tests against the saved candidates and regenerates the original-suite, review and synthetic-preparation evidence,
 checks the public asset allowlist and aggregate-only schema, then builds
 web/dist. BASE_PATH selects the repository subpath; local builds default to /.
-Pull requests targeting main run the same verification and build steps. Pages
+Feature branches target dev for integration; releases use a separate dev-to-main
+pull request. Pushes to dev and pull requests targeting dev or main run the same
+verification and build steps. Pages
 configuration, artifact upload and deployment run only for non-PR events on main.
 The viewer has no public model endpoint, API key, telemetry or inference cost.
 
