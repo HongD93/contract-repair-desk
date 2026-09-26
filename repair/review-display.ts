@@ -4,6 +4,13 @@ function canonical(value: any): string {
   return JSON.stringify(value);
 }
 
+function resultShape(value: any) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value)
+    && Object.keys(value).length === 1
+    && ((Object.hasOwn(value, 'value') && value.value !== undefined)
+      || (Object.hasOwn(value, 'error') && typeof value.error === 'string' && value.error.trim().length > 0));
+}
+
 export function validateReviewReplay(value: any) {
   if (value?.version !== 1 || value.kind !== 'known-gap-gate-replay' || !Array.isArray(value.rows) || !value.rows.length || value.rows.length > 20 || !Array.isArray(value.limitations)) throw new Error('Unsupported review evidence');
   const rowIds = new Set();
@@ -17,6 +24,10 @@ export function validateReviewReplay(value: any) {
       if (!Array.isArray(group?.checks) || !group.checks.length || group.checks.length > 50 || group.total !== group.checks.length || group.pass !== group.checks.filter((check: any) => check.passed === true).length) throw new Error('Review counts do not match checks');
       for (const check of group.checks) {
         if (typeof check.id !== 'string' || ids.has(check.id) || typeof check.passed !== 'boolean' || check.httpStatus !== 200) throw new Error('Incomplete review check');
+        if (!['migration', 'preserve', 'reject'].includes(check.purpose)
+          || !Object.hasOwn(check, 'expected') || !resultShape(check.expected)
+          || (check.purpose === 'reject') !== Object.hasOwn(check.expected, 'error')
+          || !Object.hasOwn(check, 'actual') || !(resultShape(check.actual) || (report.failure && check.actual === null && !check.passed))) throw new Error('Incomplete review result');
         ids.add(check.id);
         if (!report.failure && check.passed !== (canonical(check.expected) === canonical(check.actual))) throw new Error('Review result conflicts with actual behavior');
         if (!check.passed) failures++;

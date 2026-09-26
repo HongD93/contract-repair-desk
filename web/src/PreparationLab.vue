@@ -1,28 +1,32 @@
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, onBeforeUnmount, ref } from 'vue';
 import { validatePreparationEvidence, validateAnonymousObservation } from '../../repair/preparation-display.ts';
+import { useWhenVisible } from './useWhenVisible.js';
+const section = ref(null);
 const data = ref(null), observed = ref(null), error = ref(''), selected = ref('zero');
 let controller;
 async function load() {
   controller?.abort(); const current = new AbortController(); controller = current;
   data.value = null; observed.value = null; error.value = '';
   try {
-    const response = await fetch(`${import.meta.env.BASE_URL}evidence/preparation-lab.json`, { signal: current.signal });
-    if (!response.ok) throw new Error('Unavailable');
-    const result = validatePreparationEvidence(await response.json());
-    const observation = await fetch(`${import.meta.env.BASE_URL}evidence/anonymous-observation.json`, { signal: current.signal });
-    if (!observation.ok) throw new Error('Unavailable');
-    const anonymous = validateAnonymousObservation(await observation.json());
+    const [result, anonymous] = await Promise.all([
+      ['preparation-lab.json', validatePreparationEvidence],
+      ['anonymous-observation.json', validateAnonymousObservation],
+    ].map(async ([file, validate]) => {
+      const response = await fetch(`${import.meta.env.BASE_URL}evidence/${file}`, { signal: current.signal, cache: 'no-store' });
+      if (!response.ok) throw new Error('Unavailable');
+      return validate(await response.json());
+    }));
     if (!current.signal.aborted) { data.value = result; observed.value = anonymous; }
   } catch { if (!current.signal.aborted) error.value = 'Example evidence is unreadable. Restore the file and retry.'; }
 }
-onMounted(load); onBeforeUnmount(() => controller?.abort());
+useWhenVisible(section, load); onBeforeUnmount(() => controller?.abort());
 const proposal = computed(() => data.value?.proposal.checks.find(row => row.check.id === selected.value));
 const decision = computed(() => data.value?.decisions.decisions.find(row => row.id === selected.value));
 </script>
 
 <template>
-  <section id="preparation-lab" class="panel preparation-lab">
+  <section ref="section" id="preparation-lab" class="panel preparation-lab">
     <div class="panel-body">
       <p class="eyebrow">ANONYMIZED OBSERVATION · REPRODUCIBLE TEACHING EXAMPLE</p>
       <h2>Who checks the checks?</h2>

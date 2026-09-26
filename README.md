@@ -17,6 +17,10 @@ repair in your browser. Change the JSON: zero units must stay zero, legacy field
 keep precedence, and unsupported input is explicitly rejected. Input stays local.
 Clicks do not call a model or generate a new repair.
 
+Evidence sections load when approached or linked directly. The original task
+board fetches its data only when expanded. Failed or incomplete evidence stays
+hidden behind an error with a retry action; it cannot establish a green result.
+
 Below that, three recorded jobs show expected and actual behavior, before/after
 source, individual checks and downloadable evidence. These panels replay results;
 they do not rerun tests. The original six-case task board remains expandable.
@@ -210,6 +214,8 @@ account balance. Shell supplements the actual IDE work.
 The GitHub Pages workflow reruns tests against the saved candidates and regenerates the original-suite, review and synthetic-preparation evidence,
 checks the public asset allowlist and aggregate-only schema, then builds
 web/dist. BASE_PATH selects the repository subpath; local builds default to /.
+Pull requests targeting main run the same verification and build steps. Pages
+configuration, artifact upload and deployment run only for non-PR events on main.
 The viewer has no public model endpoint, API key, telemetry or inference cost.
 
 Demo narration is synthetic English speech. Browser segments show real

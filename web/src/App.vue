@@ -1,11 +1,12 @@
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import { cases } from '../../sample/cases.ts';
 import { toVisibleTasks } from '../../sample/view-model.ts';
 import { toVisibleTasks as legacyTasks } from '../../fixtures/view-model-before.ts';
 import RepairLab from './RepairLab.vue';
 
 const baseUrl = import.meta.env.BASE_URL;
+const originalStarted = ref(false);
 const selected = ref('renamed-title');
 const phase = ref('after');
 const tab = ref('preview');
@@ -58,8 +59,11 @@ async function loadReport() {
   } catch(error) { if(error.name!=='AbortError' && reportRequest===request) reportError.value=error.message; }
   finally { if(reportRequest===request) reportLoading.value=false; }
 }
-watch([selected,phase],runPreview);
-onMounted(()=>{runPreview();loadReport();});
+watch([selected,phase],()=>{if(originalStarted.value)runPreview();});
+function openOriginal(event) {
+  if (!event.target.open || originalStarted.value) return;
+  originalStarted.value = true; runPreview(); loadReport();
+}
 onBeforeUnmount(()=>{previewRequest?.abort();reportRequest?.abort();previewRequest=null;reportRequest=null;});
 </script>
 
@@ -76,7 +80,7 @@ onBeforeUnmount(()=>{previewRequest?.abort();reportRequest?.abort();previewReque
     <main id="main">
       <header class="topbar"><span>DEVELOPER WORKFLOW / CONTRACT REPAIR</span><span class="replay-label">Working sample · Recorded evidence</span></header>
       <RepairLab />
-      <details class="original-sample"><summary>Explore the original six-case task board and first Bob repair</summary>
+      <details class="original-sample" @toggle="openOriginal"><summary>Explore the original six-case task board and first Bob repair</summary>
       <section class="intro"><div><p class="eyebrow">BREAKAGE → REPAIR → PROOF</p><h1>Keep the change.<br><span>Repair the experience.</span></h1><p class="description">See what an API change breaks. Inspect Bob-assisted repairs.<br>Verify them against the same expectations.</p></div><div class="intro-action"><a class="secondary" href="#workbench">Try the sample ↓</a><small>Six cases. No inference charges.</small></div></section>
       <section class="verdict" :class="{verified}"><div class="verdict-icon">{{verified?'✓':'?'}}</div><div><h2>{{outcomeText}}</h2><p>{{reportLoading?'Loading recorded test results…':reportError || 'Two controls preserved. Unsupported input rejected explicitly.'}}</p></div><span v-if="report" class="check-count">{{report.after.pass}} / 6 checks pass</span><button v-if="reportError" class="secondary" @click="loadReport">Retry evidence</button></section>
       <section id="workbench" class="workbench">

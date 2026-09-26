@@ -4,6 +4,13 @@ export function validatePreparationEvidence(value: any) {
   const seen = new Set();
   for (const row of value.proposal.checks) {
     if (typeof row.check?.id !== 'string' || seen.has(row.check.id)) throw new Error('Invalid proposal id');
+    const check = row.check;
+    if (!['migration', 'preserve', 'reject'].includes(check.purpose)
+      || !Object.hasOwn(check, 'input') || check.input === undefined
+      || Object.hasOwn(check, 'expected') === Object.hasOwn(check, 'error')
+      || (Object.hasOwn(check, 'expected') && check.expected === undefined)
+      || (Object.hasOwn(check, 'error') && (typeof check.error !== 'string' || !check.error.trim()))
+      || (check.purpose === 'reject') !== Object.hasOwn(check, 'error')) throw new Error('Incomplete proposal check');
     seen.add(row.check.id);
     const decision = value.decisions.decisions.filter((d: any) => d.id === row.check.id);
     if (decision.length !== 1 || !['accept', 'reject'].includes(decision[0].action) || !decision[0].reason || typeof row.quote !== 'string' || !row.quote || (decision[0].action === 'accept' && !value.contract?.requirements?.includes(row.quote))) throw new Error('Proposal adoption conflicts with requirement');

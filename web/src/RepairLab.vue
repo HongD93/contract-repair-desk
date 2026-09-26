@@ -6,6 +6,8 @@ import {mapResponse as originalStock} from '../../repair/examples/stock.consumer
 import {mapResponse as repairedStock} from '../../repair/recorded/stock-ide.ts';
 import ReviewDesk from './ReviewDesk.vue';
 import PreparationLab from './PreparationLab.vue';
+import {useWhenVisible} from './useWhenVisible.js';
+const recordedSection=ref(null);
 const bundle=ref(null),error=ref(''),loading=ref(false),selected=ref('stock'),stage=ref('before'),view=ref('behavior');
 const contractText=ref(JSON.stringify(stock,null,2)),contractMessage=ref(''),contractInvalid=ref(false);
 const liveText=ref(JSON.stringify(stock.checks[2].input,null,2)),livePhase=ref('before'),liveResult=ref(null),liveError=ref('');
@@ -45,7 +47,8 @@ function exportContract(){
   try{const value=parseContract(contractText.value);contractInvalid.value=false;contractMessage.value=`${value.checks.length} checks validated structurally. Expected business meaning is supplied by you, not certified by this tool.`;download('contract.json',JSON.stringify(value,null,2));}
   catch(reason){contractInvalid.value=true;contractMessage.value=reason.message;}
 }
-onMounted(()=>{load();runLive();});onBeforeUnmount(()=>{request?.abort();request=null;});
+useWhenVisible(recordedSection, load, ['#recorded-jobs', '#verification-guards', '#comparison-study']);
+onMounted(runLive);onBeforeUnmount(()=>{request?.abort();request=null;});
 </script>
 
 <template>
@@ -54,10 +57,11 @@ onMounted(()=>{load();runLive();});onBeforeUnmount(()=>{request?.abort();request
     <div class="repair-flow" aria-label="Repair workflow"><span>1 · Reproduce the failure</span><span>2 · Give Bob a fixed contract</span><span>3 · Package review gaps</span><span>4 · Recheck the repair</span></div>
     <section id="live-adapter" class="panel live-adapter"><p class="eyebrow">LIVE IN YOUR BROWSER · ACTUAL BOB IDE CODE</p><h2>Try the repaired warehouse adapter.</h2><p class="subtle">The server says zero units remain. The original consumer invents twenty. Edit the synthetic response and run either version. Your input stays in this browser.</p><div class="comparison"><div><label for="live-payload">Synthetic response JSON</label><textarea id="live-payload" v-model="liveText" spellcheck="false" aria-describedby="live-error"></textarea><div class="segmented"><button :aria-pressed="livePhase==='before'" :class="{active:livePhase==='before'}" @click="livePhase='before';runLive()">Original code</button><button :aria-pressed="livePhase==='after'" :class="{active:livePhase==='after'}" @click="livePhase='after';runLive()">Bob IDE repair</button></div><button class="secondary" @click="runLive">Run edited response</button></div><div class="live-output" aria-live="polite"><p class="eyebrow">VISIBLE WAREHOUSE</p><p v-if="liveError" id="live-error" role="alert">{{liveError}}</p><template v-else><article v-for="(item,index) in liveResult" :key="index" class="live-stock-row"><span>{{item.label || '(Missing label)'}}<small>{{item.sku}}</small></span><span>{{item.available}} units<small>{{item.available===0?'Out of stock':'Available'}}</small></span></article><p v-if="liveResult?.length===0">No stock items.</p></template></div></div><p class="subtle">This executes the selected saved adapter, not a new AI repair. Custom input is not automatically certified by the recorded contract checks.</p></section>
     <ReviewDesk />
+    <div id="recorded-jobs" ref="recordedSection"></div>
     <p v-if="loading" role="status">Loading executed repair evidence…</p>
     <div v-if="error" class="rejection" role="alert"><p>{{error}}</p><button class="secondary" @click="load">Retry repair evidence</button></div>
     <template v-if="bundle && report">
-      <section id="recorded-jobs" class="workbench">
+      <section class="workbench">
         <div class="workbench-head"><div><p class="eyebrow">RECORDED EXECUTION · REAL LOOPBACK HTTP</p><h2>{{report.name}}</h2><p>{{current.summary}}</p></div><label class="mobile-case">Project<select v-model="selected" @change="selectStudyCheck"><option v-for="item in bundle.studies" :value="item.id" :key="item.id">{{item.report.name}}</option></select></label></div>
         <div class="toolbar"><div class="segmented"><button :aria-pressed="stage==='before'" :class="{active:stage==='before'}" @click="stage='before'">Before repair</button><button :aria-pressed="stage==='after'" :class="{active:stage==='after'}" @click="stage='after'">Bob candidate</button></div><span class="small-tag">{{report[stage].pass}} / {{report[stage].total}} checks pass</span></div>
         <div class="workbench-tabs"><button :aria-pressed="view==='behavior'" :class="{active:view==='behavior'}" @click="view='behavior'">Visible consequence</button><button :aria-pressed="view==='source'" :class="{active:view==='source'}" @click="view='source'">Actual code change</button><button :aria-pressed="view==='checks'" :class="{active:view==='checks'}" @click="view='checks'">All contract checks</button></div>

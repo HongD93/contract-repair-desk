@@ -1,7 +1,9 @@
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, onBeforeUnmount, ref } from 'vue';
 import { validateReviewReplay } from '../../repair/review-display.ts';
 
+import { useWhenVisible } from './useWhenVisible.js';
+const section = ref(null);
 const evidence = ref(null), error = ref(''), loading = ref(false);
 const selected = ref('booking-guided'), failureId = ref('review-null-precedence'), showHandoff = ref(false);
 const current = computed(() => evidence.value?.rows.find(row => row.id === selected.value));
@@ -30,11 +32,11 @@ function download() {
   const link = document.createElement('a'); link.href = url; link.download = `${current.value.id}-FOLLOW_UP.md`; link.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
-onMounted(load); onBeforeUnmount(() => { request?.abort(); request = null; });
+useWhenVisible(section, load); onBeforeUnmount(() => { request?.abort(); request = null; });
 </script>
 
 <template>
-  <section id="review-desk" class="panel review-desk">
+  <section ref="section" id="review-desk" class="panel review-desk">
     <p class="eyebrow">INDEPENDENT REVIEW · RECORDED, REPLAYABLE EXECUTION</p>
     <h2>Seven green checks. Still not ready.</h2>
     <p class="subtle">A developer adds explicit boundary expectations. One local command reruns both groups and packages every failure for Bob. It keeps the original contract intact.</p>
