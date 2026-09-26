@@ -1,0 +1,319 @@
+{
+  "version": 1,
+  "kind": "contract-repair-job",
+  "runId": "89c8a14c-3648-4636-8947-d5bef746e151",
+  "generatedAt": "2026-09-25T18:19:51.857Z",
+  "name": "Warehouse availability",
+  "outcome": "verified-repair",
+  "controlsPreserved": true,
+  "manifestHash": "d54952632bbf111aacd4dcc51ee30aff8bda08b13e3b263694c751dd44366ae3",
+  "hashes": {
+    "contract.json": "173a70fa85c76b31711f764b7dd1767604553433f000a18d9ee81e600c86b6a6",
+    "baseline.ts": "924b909f85180ae4193a2893a8126d5960b4b43225ca7c26951ccd994f6ab21c",
+    "candidate.ts": "fff06353574b312031d05f7d7076256140ff618eb6f37db9b801495d5af69514"
+  },
+  "before": {
+    "pass": 3,
+    "total": 7,
+    "checks": [
+      {
+        "id": "legacy-stock",
+        "purpose": "preserve",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "value": [
+            {
+              "sku": "S-1",
+              "available": 20,
+              "label": "Cable"
+            }
+          ]
+        },
+        "actual": {
+          "value": [
+            {
+              "sku": "S-1",
+              "available": 20,
+              "label": "Cable"
+            }
+          ]
+        }
+      },
+      {
+        "id": "mixed-precedence",
+        "purpose": "preserve",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "value": [
+            {
+              "sku": "S-2",
+              "available": 3,
+              "label": "Legacy"
+            }
+          ]
+        },
+        "actual": {
+          "value": [
+            {
+              "sku": "S-2",
+              "available": 3,
+              "label": "Legacy"
+            }
+          ]
+        }
+      },
+      {
+        "id": "zero-means-out-of-stock",
+        "purpose": "migration",
+        "httpStatus": 200,
+        "passed": false,
+        "expected": {
+          "value": [
+            {
+              "sku": "S-3",
+              "available": 0,
+              "label": "Adapter"
+            }
+          ]
+        },
+        "actual": {
+          "value": [
+            {
+              "sku": "S-3",
+              "available": 20,
+              "label": ""
+            }
+          ]
+        }
+      },
+      {
+        "id": "renamed-nonzero",
+        "purpose": "migration",
+        "httpStatus": 200,
+        "passed": false,
+        "expected": {
+          "value": [
+            {
+              "sku": "S-4",
+              "available": 7,
+              "label": "Hub"
+            }
+          ]
+        },
+        "actual": {
+          "value": [
+            {
+              "sku": "S-4",
+              "available": 20,
+              "label": ""
+            }
+          ]
+        }
+      },
+      {
+        "id": "no-guessed-stock",
+        "purpose": "reject",
+        "httpStatus": 200,
+        "passed": false,
+        "expected": {
+          "error": "Unsupported stock response"
+        },
+        "actual": {
+          "value": [
+            {
+              "sku": "S-5",
+              "available": 20,
+              "label": "Unknown"
+            }
+          ]
+        }
+      },
+      {
+        "id": "negative-stock",
+        "purpose": "reject",
+        "httpStatus": 200,
+        "passed": false,
+        "expected": {
+          "error": "Unsupported stock response"
+        },
+        "actual": {
+          "value": [
+            {
+              "sku": "S-6",
+              "available": -1,
+              "label": "Invalid"
+            }
+          ]
+        }
+      },
+      {
+        "id": "wrong-envelope",
+        "purpose": "reject",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "error": "Unsupported stock response"
+        },
+        "actual": {
+          "error": "Unsupported stock response"
+        }
+      }
+    ],
+    "elapsedMs": 96,
+    "failure": null,
+    "diagnostic": ""
+  },
+  "after": {
+    "pass": 7,
+    "total": 7,
+    "checks": [
+      {
+        "id": "legacy-stock",
+        "purpose": "preserve",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "value": [
+            {
+              "sku": "S-1",
+              "available": 20,
+              "label": "Cable"
+            }
+          ]
+        },
+        "actual": {
+          "value": [
+            {
+              "sku": "S-1",
+              "available": 20,
+              "label": "Cable"
+            }
+          ]
+        }
+      },
+      {
+        "id": "mixed-precedence",
+        "purpose": "preserve",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "value": [
+            {
+              "sku": "S-2",
+              "available": 3,
+              "label": "Legacy"
+            }
+          ]
+        },
+        "actual": {
+          "value": [
+            {
+              "sku": "S-2",
+              "available": 3,
+              "label": "Legacy"
+            }
+          ]
+        }
+      },
+      {
+        "id": "zero-means-out-of-stock",
+        "purpose": "migration",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "value": [
+            {
+              "sku": "S-3",
+              "available": 0,
+              "label": "Adapter"
+            }
+          ]
+        },
+        "actual": {
+          "value": [
+            {
+              "sku": "S-3",
+              "available": 0,
+              "label": "Adapter"
+            }
+          ]
+        }
+      },
+      {
+        "id": "renamed-nonzero",
+        "purpose": "migration",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "value": [
+            {
+              "sku": "S-4",
+              "available": 7,
+              "label": "Hub"
+            }
+          ]
+        },
+        "actual": {
+          "value": [
+            {
+              "sku": "S-4",
+              "available": 7,
+              "label": "Hub"
+            }
+          ]
+        }
+      },
+      {
+        "id": "no-guessed-stock",
+        "purpose": "reject",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "error": "Unsupported stock response"
+        },
+        "actual": {
+          "error": "Unsupported stock response"
+        }
+      },
+      {
+        "id": "negative-stock",
+        "purpose": "reject",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "error": "Unsupported stock response"
+        },
+        "actual": {
+          "error": "Unsupported stock response"
+        }
+      },
+      {
+        "id": "wrong-envelope",
+        "purpose": "reject",
+        "httpStatus": 200,
+        "passed": true,
+        "expected": {
+          "error": "Unsupported stock response"
+        },
+        "actual": {
+          "error": "Unsupported stock response"
+        }
+      }
+    ],
+    "elapsedMs": 108,
+    "failure": null,
+    "diagnostic": ""
+  },
+  "source": {
+    "before": "export function mapResponse(payload: any) {\n  if (!Array.isArray(payload.items)) throw new Error('Unsupported stock response');\n  return payload.items.map((item: any) => ({sku:item.sku,available:item.available || 20,label:item.name || ''}));\n}\n",
+    "after": "export function mapResponse(payload: any) {\n  if (!Array.isArray(payload.items)) throw new Error('Unsupported stock response');\n  return payload.items.map((item: any) => {\n    // availability: `available` takes precedence when present; zero is valid\n    const available = ('available' in item) ? item.available : item.availableUnits;\n    if (typeof available !== 'number' || !Number.isInteger(available) || available < 0) {\n      throw new Error('Unsupported stock response');\n    }\n    // label: non-empty `name` takes precedence over `displayName`\n    const label = (typeof item.name === 'string' && item.name !== '') ? item.name : item.displayName;\n    if (typeof label !== 'string' || label === '') throw new Error('Unsupported stock response');\n    if (typeof item.sku !== 'string' || item.sku === '') throw new Error('Unsupported stock response');\n    return { sku: item.sku, available, label };\n  });\n}\n"
+  },
+  "limitations": [
+    "Synthetic HTTP fixtures and a pure TypeScript consumer adapter.",
+    "Recorded execution time is not developer time saved.",
+    "Local pins detect edits, not malicious replacement of both manifest and inputs.",
+    "Run only trusted local code; this is not a hostile-code sandbox."
+  ]
+}

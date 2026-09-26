@@ -3,3 +3,5 @@ sample/*.ts -text
 test/*.ts -text
 fixtures/*.ts -text
 *.png binary
+repair/recorded/*.ts -text
+repair/examples/*.json -text

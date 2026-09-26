@@ -1,0 +1,26 @@
+{
+  "kind": "anonymized-observed-execution",
+  "drafted": 10,
+  "accepted": 8,
+  "rejected": 2,
+  "original": {
+    "pass": 3,
+    "total": 3
+  },
+  "adopted": {
+    "pass": 8,
+    "total": 8
+  },
+  "withheld": {
+    "pass": 12,
+    "total": 12
+  },
+  "faults": {
+    "seededFaults": 5,
+    "detectedByInitial": 2,
+    "detectedByCombined": 3,
+    "controlsPreserved": 1,
+    "equivalentControls": 1
+  },
+  "postAuditDetected": 5
+}

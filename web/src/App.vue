@@ -1,10 +1,12 @@
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import { cases } from '../../sample/cases.ts';
 import { toVisibleTasks } from '../../sample/view-model.ts';
 import { toVisibleTasks as legacyTasks } from '../../fixtures/view-model-before.ts';
+import RepairLab from './RepairLab.vue';
 
 const baseUrl = import.meta.env.BASE_URL;
+const originalStarted = ref(false);
 const selected = ref('renamed-title');
 const phase = ref('after');
 const tab = ref('preview');
@@ -57,8 +59,11 @@ async function loadReport() {
   } catch(error) { if(error.name!=='AbortError' && reportRequest===request) reportError.value=error.message; }
   finally { if(reportRequest===request) reportLoading.value=false; }
 }
-watch([selected,phase],runPreview);
-onMounted(()=>{runPreview();loadReport();});
+watch([selected,phase],()=>{if(originalStarted.value)runPreview();});
+function openOriginal(event) {
+  if (!event.target.open || originalStarted.value) return;
+  originalStarted.value = true; runPreview(); loadReport();
+}
 onBeforeUnmount(()=>{previewRequest?.abort();reportRequest?.abort();previewRequest=null;reportRequest=null;});
 </script>
 
@@ -66,14 +71,16 @@ onBeforeUnmount(()=>{previewRequest?.abort();reportRequest?.abort();previewReque
   <div class="desk">
     <aside class="rail">
       <a class="brand" href="#main"><span class="brand-mark">cr<span>↗</span></span><span>CONTRACT<br>REPAIR DESK</span></a>
-      <div class="rail-label">SAMPLE WORKSPACE</div>
-      <div class="workspace"><span class="square">06</span><div>Task list API<small>Fictional migration cases</small></div></div>
-      <div class="rail-label">REPAIRS & CONTROLS</div>
-      <nav class="case-nav" aria-label="Cases"><button v-for="item in cases" :key="item.id" :class="{'case-active':selected===item.id}" :aria-pressed="selected===item.id" @click="selected=item.id"><span>{{ item.category==='repair'?'R':item.category==='control'?'C':'!' }}</span>{{ item.title }}</button></nav>
+      <div class="rail-label">REPAIR WORKSPACE</div>
+      <div class="workspace"><span class="square">03</span><div>Consumer contracts<small>Synthetic migration jobs</small></div></div>
+      <div class="rail-label">EXPLORE THE WORKFLOW</div>
+      <nav class="case-nav" aria-label="Repair sections"><a href="#live-adapter">Live warehouse</a><a href="#review-desk">Independent review</a><a href="#recorded-jobs">Recorded repair jobs</a><a href="#verification-guards">Verification guards</a><a href="#comparison-study">Comparison study</a><a href="#preparation-lab">Check the checks</a><a href="#bring-contract">Use your own contract</a></nav>
       <div class="rail-bottom"><span class="status-dot"></span> No account or API key needed<small>IBM Bob IDE + Bob Shell<br>Solo Workflow Lab · 2026</small></div>
     </aside>
     <main id="main">
       <header class="topbar"><span>DEVELOPER WORKFLOW / CONTRACT REPAIR</span><span class="replay-label">Working sample · Recorded evidence</span></header>
+      <RepairLab />
+      <details class="original-sample" @toggle="openOriginal"><summary>Explore the original six-case task board and first Bob repair</summary>
       <section class="intro"><div><p class="eyebrow">BREAKAGE → REPAIR → PROOF</p><h1>Keep the change.<br><span>Repair the experience.</span></h1><p class="description">See what an API change breaks. Inspect Bob-assisted repairs.<br>Verify them against the same expectations.</p></div><div class="intro-action"><a class="secondary" href="#workbench">Try the sample ↓</a><small>Six cases. No inference charges.</small></div></section>
       <section class="verdict" :class="{verified}"><div class="verdict-icon">{{verified?'✓':'?'}}</div><div><h2>{{outcomeText}}</h2><p>{{reportLoading?'Loading recorded test results…':reportError || 'Two controls preserved. Unsupported input rejected explicitly.'}}</p></div><span v-if="report" class="check-count">{{report.after.pass}} / 6 checks pass</span><button v-if="reportError" class="secondary" @click="loadReport">Retry evidence</button></section>
       <section id="workbench" class="workbench">
@@ -92,6 +99,7 @@ onBeforeUnmount(()=>{previewRequest?.abort();reportRequest?.abort();previewReque
       <section class="details-grid"><article class="panel"><div class="section-heading"><span class="eyebrow">A REPEATABLE LOCAL WORKFLOW</span></div><h2>One command collects the proof.</h2><ol class="workflow-steps"><li>Pin the intended contract and acceptance checks.</li><li>Reproduce failures in isolated copies.</li><li>Ask Bob to repair the consumer; review its changes.</li><li>Replay both versions and export logs, hashes and outcomes.</li></ol><code class="command">npm run evidence</code><p class="subtle">The command does not call Bob or modify the working consumer. The web demo is read-only.</p></article><article class="panel"><div class="section-heading"><span class="eyebrow">OBSERVED RESULT</span><span class="small-tag">{{report?.nodeVersion || 'Node.js'}}</span></div><h2>Three defects. Same six checks.</h2><div class="result-numbers"><div><strong>{{report?.before.pass ?? '—'}} / 6</strong><span>Before · three defects fail</span></div><div><strong>{{report?.after.pass ?? '—'}} / 6</strong><span>After · all expectations pass</span></div></div><p class="subtle">Includes two controls and one required rejection. These are sample correctness results, not a measured human productivity improvement.</p><p v-if="report" class="subtle">This recorded local capture took {{(report.elapsedMs/1000).toFixed(2)}} s. It excludes Bob work and human review.</p></article></section>
       <section v-if="report" class="provenance"><details><summary>Inspect pinned files and provenance <span>SHA-256</span></summary><p>Run {{report.runId}} · {{report.generatedAt}}</p><dl><div v-for="(hash,file) in report.inputs" :key="file"><dt>{{file}}</dt><dd>{{hash}}</dd></div></dl><p>The manifest detects accidental fixture changes. It is not third-party attestation.</p></details><div class="downloads"><a :href="`${baseUrl}evidence/suite.json`" download="contract-repair-evidence.json">Download JSON</a><a :href="`${baseUrl}evidence/suite.html`" target="_blank" rel="noopener">Open HTML report ↗</a><a :href="`${baseUrl}evidence/report.html`" target="_blank" rel="noopener">First IDE repair evidence ↗</a></div></section>
       <footer><h2>Built with Bob. Checked independently.</h2><p>IBM Bob IDE repaired the first HTTP consumer. Bob Shell drafted evidence capture and the expanded view mapper. Codex prepared fixtures, reviewed and hardened the code, and built this viewer. All data is fictional; no production claims or benchmarked time savings.</p><span>THREE SUPPORTED REPAIRS · TWO CONTROLS · EXPLICIT UNSUPPORTED INPUT</span></footer>
+      </details>
     </main>
   </div>
 </template>

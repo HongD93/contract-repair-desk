@@ -1,0 +1,12 @@
+{
+  "version":1,"name":"Booking capacity","requirements":"Return {id,seats,bookable} arrays from slots. id must be a non-empty string. Use remaining if present, otherwise capacityLeft. Seats must be a non-negative integer; zero is sold out, never a default of one. open and accepting mean potentially bookable; closed means not bookable. bookable is true only for open/accepting with seats greater than zero. Unsupported/missing values throw Unsupported booking response. Legacy remaining takes precedence even if zero.",
+  "checks":[
+    {"id":"legacy-open","purpose":"preserve","input":{"slots":[{"id":"B-1","remaining":3,"status":"open"}]},"expected":[{"id":"B-1","seats":3,"bookable":true}]},
+    {"id":"closed-slot","purpose":"preserve","input":{"slots":[{"id":"B-2","remaining":2,"status":"closed"}]},"expected":[{"id":"B-2","seats":2,"bookable":false}]},
+    {"id":"renamed-capacity","purpose":"migration","input":{"slots":[{"id":"B-3","capacityLeft":4,"status":"accepting"}]},"expected":[{"id":"B-3","seats":4,"bookable":true}]},
+    {"id":"zero-precedence","purpose":"migration","input":{"slots":[{"id":"B-4","remaining":0,"capacityLeft":9,"status":"open"}]},"expected":[{"id":"B-4","seats":0,"bookable":false}]},
+    {"id":"missing-seats","purpose":"reject","input":{"slots":[{"id":"B-5","status":"open"}]},"error":"Unsupported booking response"},
+    {"id":"unknown-status","purpose":"reject","input":{"slots":[{"id":"B-6","remaining":3,"status":"waitlist"}]},"error":"Unsupported booking response"},
+    {"id":"null-capacity","purpose":"reject","input":{"slots":[{"id":"B-7","remaining":null,"status":"closed"}]},"error":"Unsupported booking response"}
+  ]
+}

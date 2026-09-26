@@ -1,0 +1,12 @@
+{
+  "version":1,"name":"Warehouse availability","requirements":"Return an array of {sku, available, label}. items must be an array. sku and label must be non-empty strings. Legacy name takes precedence over displayName only when it is a non-empty string. available takes precedence over availableUnits when present; zero is valid. The chosen availability must be a non-negative integer. Missing or invalid fields must throw exactly Unsupported stock response. Do not guess a default stock count.",
+  "checks":[
+    {"id":"legacy-stock","purpose":"preserve","input":{"items":[{"sku":"S-1","name":"Cable","available":20}]},"expected":[{"sku":"S-1","available":20,"label":"Cable"}]},
+    {"id":"mixed-precedence","purpose":"preserve","input":{"items":[{"sku":"S-2","name":"Legacy","displayName":"New","available":3,"availableUnits":9}]},"expected":[{"sku":"S-2","available":3,"label":"Legacy"}]},
+    {"id":"zero-means-out-of-stock","purpose":"migration","input":{"items":[{"sku":"S-3","displayName":"Adapter","availableUnits":0}]},"expected":[{"sku":"S-3","available":0,"label":"Adapter"}]},
+    {"id":"renamed-nonzero","purpose":"migration","input":{"items":[{"sku":"S-4","displayName":"Hub","availableUnits":7}]},"expected":[{"sku":"S-4","available":7,"label":"Hub"}]},
+    {"id":"no-guessed-stock","purpose":"reject","input":{"items":[{"sku":"S-5","name":"Unknown"}]},"error":"Unsupported stock response"},
+    {"id":"negative-stock","purpose":"reject","input":{"items":[{"sku":"S-6","name":"Invalid","available":-1}]},"error":"Unsupported stock response"},
+    {"id":"wrong-envelope","purpose":"reject","input":{"rows":[]},"error":"Unsupported stock response"}
+  ]
+}

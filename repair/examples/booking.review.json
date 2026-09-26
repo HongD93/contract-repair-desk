@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "kind": "boundary-review",
+  "name": "booking boundary review",
+  "basis": "The existing requirements demand a slots array, a non-empty id, supported status and non-negative integer capacity. Null and missing required fields violate it; explicit legacy capacity takes precedence.",
+  "checks": [
+    {
+      "id": "review-null",
+      "purpose": "reject",
+      "input": null,
+      "error": "Unsupported booking response"
+    },
+    {
+      "id": "review-null-row",
+      "purpose": "reject",
+      "input": {
+        "slots": [
+          null
+        ]
+      },
+      "error": "Unsupported booking response"
+    },
+    {
+      "id": "review-missing-id",
+      "purpose": "reject",
+      "input": {
+        "slots": [
+          {
+            "remaining": 2,
+            "status": "open"
+          }
+        ]
+      },
+      "error": "Unsupported booking response"
+    },
+    {
+      "id": "review-null-precedence",
+      "purpose": "reject",
+      "input": {
+        "slots": [
+          {
+            "id": "R1",
+            "remaining": null,
+            "capacityLeft": 4,
+            "status": "accepting"
+          }
+        ]
+      },
+      "error": "Unsupported booking response"
+    }
+  ]
+}
