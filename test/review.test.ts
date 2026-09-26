@@ -100,6 +100,14 @@ test('web evidence refuses forged summary and a green label over actual failed b
   assert.throws(() => validateReviewReplay(wrong), /conflicts with actual behavior/);
   const handoff = structuredClone(data); handoff.rows[0].report.failures[0].actual = { value: 'invented' };
   assert.throws(() => validateReviewReplay(handoff), /handoff conflicts/);
+  const invalid = structuredClone(data);
+  const invalidReport = invalid.rows[0].report;
+  const failedCheck = invalidReport.additional.checks.find((check: any) => !check.passed);
+  failedCheck.actual = { invalidOutput: 'Return value is not lossless JSON' };
+  invalidReport.failures.find((check: any) => check.id === failedCheck.id).actual = failedCheck.actual;
+  assert.doesNotThrow(() => validateReviewReplay(invalid));
+  failedCheck.passed = true; invalidReport.additional.pass++;
+  assert.throws(() => validateReviewReplay(invalid), /Incomplete review result/);
   const stale = structuredClone(data); stale.freshness.after.usable = true;
   assert.throws(() => validateReviewReplay(stale), /freshness evidence/);
   const followup = data.rows.find((row: any) => row.id === 'booking-followup');

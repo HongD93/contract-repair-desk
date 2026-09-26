@@ -77,11 +77,11 @@ async function execute(source: string, inputs: unknown[], timeoutMs: number) {
   } finally {rmSync(directory,{recursive:true,force:true});}
 }
 function score(run: any, contract: Contract, inputs: any[]) {
-  const complete=Array.isArray(run.rows) && run.rows.length === contract.checks.length && contract.checks.every(row=>run.rows.filter((actual:any)=>actual?.id===row.id && Object.hasOwn(actual,'value') !== Object.hasOwn(actual,'error')).length===1);
+  const complete=Array.isArray(run.rows) && run.rows.length === contract.checks.length && contract.checks.every(row=>run.rows.filter((actual:any)=>actual?.id===row.id && ['value','error','invalidOutput'].filter(key=>Object.hasOwn(actual,key)).length===1 && (!Object.hasOwn(actual,'invalidOutput') || typeof actual.invalidOutput==='string')).length===1);
   const checks=contract.checks.map((row,index)=>{
     const actual=complete?run.rows.find((item:any)=>item.id===row.id):undefined;
-    const passed=!run.failure && complete && (Object.hasOwn(row,'error') ? actual.error === row.error : Object.hasOwn(actual,'value') && isDeepStrictEqual(actual.value,row.expected));
-    return {id:row.id,purpose:row.purpose,httpStatus:inputs[index].httpStatus,passed,expected:Object.hasOwn(row,'error')?{error:row.error}:{value:row.expected},actual:actual ? (Object.hasOwn(actual,'error')?{error:actual.error}:{value:actual.value}) : null};
+    const passed=!run.failure && complete && !Object.hasOwn(actual,'invalidOutput') && (Object.hasOwn(row,'error') ? actual.error === row.error : Object.hasOwn(actual,'value') && isDeepStrictEqual(actual.value,row.expected));
+    return {id:row.id,purpose:row.purpose,httpStatus:inputs[index].httpStatus,passed,expected:Object.hasOwn(row,'error')?{error:row.error}:{value:row.expected},actual:actual ? (Object.hasOwn(actual,'invalidOutput')?{invalidOutput:actual.invalidOutput}:Object.hasOwn(actual,'error')?{error:actual.error}:{value:actual.value}) : null};
   });
   return {pass:checks.filter(row=>row.passed).length,total:checks.length,checks,elapsedMs:run.elapsedMs,failure:run.failure || (!complete?'Incomplete candidate result':null),diagnostic:run.diagnostic};
 }

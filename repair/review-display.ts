@@ -11,6 +11,11 @@ function resultShape(value: any) {
       || (Object.hasOwn(value, 'error') && typeof value.error === 'string' && value.error.trim().length > 0));
 }
 
+function invalidOutputShape(value: any) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value)
+    && Object.keys(value).length === 1 && typeof value.invalidOutput === 'string' && value.invalidOutput.length > 0;
+}
+
 export function validateReviewReplay(value: any) {
   if (value?.version !== 1 || value.kind !== 'known-gap-gate-replay' || !Array.isArray(value.rows) || !value.rows.length || value.rows.length > 20 || !Array.isArray(value.limitations)) throw new Error('Unsupported review evidence');
   const rowIds = new Set();
@@ -27,7 +32,7 @@ export function validateReviewReplay(value: any) {
         if (!['migration', 'preserve', 'reject'].includes(check.purpose)
           || !Object.hasOwn(check, 'expected') || !resultShape(check.expected)
           || (check.purpose === 'reject') !== Object.hasOwn(check.expected, 'error')
-          || !Object.hasOwn(check, 'actual') || !(resultShape(check.actual) || (report.failure && check.actual === null && !check.passed))) throw new Error('Incomplete review result');
+          || !Object.hasOwn(check, 'actual') || !(resultShape(check.actual) || (invalidOutputShape(check.actual) && !check.passed) || (report.failure && check.actual === null && !check.passed))) throw new Error('Incomplete review result');
         ids.add(check.id);
         if (!report.failure && check.passed !== (canonical(check.expected) === canonical(check.actual))) throw new Error('Review result conflicts with actual behavior');
         if (!check.passed) failures++;

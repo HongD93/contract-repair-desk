@@ -11,8 +11,19 @@ const recordedSection=ref(null);
 const bundle=ref(null),error=ref(''),loading=ref(false),selected=ref('stock'),stage=ref('before'),view=ref('behavior');
 const contractText=ref(JSON.stringify(stock,null,2)),contractMessage=ref(''),contractInvalid=ref(false);
 const liveText=ref(JSON.stringify(stock.checks[2].input,null,2)),livePhase=ref('before'),liveResult=ref(null),liveError=ref('');
+const executedText=ref(null);
+const liveStale=computed(()=>executedText.value!==liveText.value);
+const liveExamples=[
+  {id:'zero-means-out-of-stock',label:'Zero stays zero'},
+  {id:'mixed-precedence',label:'Keep the legacy value'},
+  {id:'negative-stock',label:'Reject negative stock'},
+];
+function loadLiveExample(id){
+  liveText.value=JSON.stringify(stock.checks.find(check=>check.id===id).input,null,2);
+  runLive();
+}
 function runLive(){
-  liveError.value='';liveResult.value=null;
+  liveError.value='';liveResult.value=null;executedText.value=liveText.value;
   try{if(new TextEncoder().encode(liveText.value).length>32768)throw new Error('Input exceeds 32 KiB');const value=JSON.parse(liveText.value);if(Array.isArray(value?.items)&&value.items.length>50)throw new Error('Maximum 50 items');liveResult.value=(livePhase.value==='before'?originalStock:repairedStock)(value);}
   catch(reason){liveError.value=reason.message;}
 }
@@ -54,8 +65,9 @@ onMounted(runLive);onBeforeUnmount(()=>{request?.abort();request=null;});
 <template>
   <section id="repair-lab" class="repair-lab">
     <div class="intro"><div><p class="eyebrow">HTTP 200. WRONG EXPERIENCE.</p><h1>The request worked.<br><span>The meaning broke.</span></h1><p class="description">Zero units become twenty. See the failure, then try Bob's repair.<br> Package exact failures for Bob. Independently check the fix and the behavior it must preserve.</p></div><a class="secondary" href="#live-adapter">Try the zero-stock failure</a></div>
+    <p class="judge-route">Start here: switch to Bob IDE repair and watch 20 become 0. Then try legacy precedence and invalid input. Below, inspect how added review catches gaps after an initial pass.</p>
     <div class="repair-flow" aria-label="Repair workflow"><span>1 · Reproduce the failure</span><span>2 · Give Bob a fixed contract</span><span>3 · Package review gaps</span><span>4 · Recheck the repair</span></div>
-    <section id="live-adapter" class="panel live-adapter"><p class="eyebrow">LIVE IN YOUR BROWSER · ACTUAL BOB IDE CODE</p><h2>Try the repaired warehouse adapter.</h2><p class="subtle">The server says zero units remain. The original consumer invents twenty. Edit the synthetic response and run either version. Your input stays in this browser.</p><div class="comparison"><div><label for="live-payload">Synthetic response JSON</label><textarea id="live-payload" v-model="liveText" spellcheck="false" aria-describedby="live-error"></textarea><div class="segmented"><button :aria-pressed="livePhase==='before'" :class="{active:livePhase==='before'}" @click="livePhase='before';runLive()">Original code</button><button :aria-pressed="livePhase==='after'" :class="{active:livePhase==='after'}" @click="livePhase='after';runLive()">Bob IDE repair</button></div><button class="secondary" @click="runLive">Run edited response</button></div><div class="live-output" aria-live="polite"><p class="eyebrow">VISIBLE WAREHOUSE</p><p v-if="liveError" id="live-error" role="alert">{{liveError}}</p><template v-else><article v-for="(item,index) in liveResult" :key="index" class="live-stock-row"><span>{{item.label || '(Missing label)'}}<small>{{item.sku}}</small></span><span>{{item.available}} units<small>{{item.available===0?'Out of stock':'Available'}}</small></span></article><p v-if="liveResult?.length===0">No stock items.</p></template></div></div><p class="subtle">This executes the selected saved adapter, not a new AI repair. Custom input is not automatically certified by the recorded contract checks.</p></section>
+    <section id="live-adapter" class="panel live-adapter"><p class="eyebrow">LIVE IN YOUR BROWSER · ACTUAL BOB IDE CODE</p><h2>Try the repaired warehouse adapter.</h2><p class="subtle">The server says zero units remain. The original consumer invents twenty. Edit the synthetic response and run either version. Your input stays in this browser.</p><div class="live-examples" aria-label="Try a contract rule"><button v-for="example in liveExamples" :key="example.id" class="secondary" @click="loadLiveExample(example.id)">{{example.label}}</button></div><div class="comparison"><div><label for="live-payload">Synthetic response JSON</label><textarea id="live-payload" v-model="liveText" spellcheck="false" aria-describedby="live-input-status"></textarea><div class="segmented"><button :aria-pressed="livePhase==='before'" :class="{active:livePhase==='before'}" @click="livePhase='before';runLive()">Original code</button><button :aria-pressed="livePhase==='after'" :class="{active:livePhase==='after'}" @click="livePhase='after';runLive()">Bob IDE repair</button></div><button class="secondary" @click="runLive">Run edited response</button></div><div class="live-output" aria-live="polite"><p class="eyebrow">VISIBLE WAREHOUSE</p><p v-if="liveStale" role="status">Input changed. Run the edited response to see its result.</p><p v-else-if="liveError" id="live-error" role="alert">{{liveError}}</p><template v-else><article v-for="(item,index) in liveResult" :key="index" class="live-stock-row"><span>{{item.label || '(Missing label)'}}<small>{{item.sku}}</small></span><span>{{item.available}} units<small>{{item.available===0?'Out of stock':'Available'}}</small></span></article><p v-if="liveResult?.length===0">No stock items.</p></template></div></div><p id="live-input-status" class="subtle">This executes the selected saved adapter, not a new AI repair. Custom input is not automatically certified by the recorded contract checks.</p></section>
     <ReviewDesk />
     <div id="recorded-jobs" ref="recordedSection"></div>
     <p v-if="loading" role="status">Loading executed repair evidence…</p>

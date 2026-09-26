@@ -15,7 +15,9 @@ September 26, 2026 (KST). All example data is fictional.
 The warehouse demo executes the actual original adapter or the saved Bob IDE
 repair in your browser. Change the JSON: zero units must stay zero, legacy fields
 keep precedence, and unsupported input is explicitly rejected. Input stays local.
-Clicks do not call a model or generate a new repair.
+Clicks do not call a model or generate a new repair. Start with zero stock, then
+use the legacy-precedence and negative-stock examples. Editing the JSON hides
+the previous output until you run the response again.
 
 Evidence sections load when approached or linked directly. The original task
 board fetches its data only when expanded. Failed or incomplete evidence stays
@@ -57,7 +59,10 @@ Review normal IDE tool approvals. Then run the check command again. It evaluates
 both versions against the same contract and writes report.json. Preparation
 refuses an existing directory. Use a new directory for retries of preparation;
 verification can be repeated after reviewing the candidate. No model call occurs
-inside either command.
+inside either command. Returned values must survive JSON serialization unchanged;
+non-finite numbers, undefined fields, sparse arrays and other lossy values make
+the affected check fail explicitly, rather than turning into apparently passing
+results. Other checks still run; execution failure remains inconclusive.
 
 For another project, export a trusted, self-contained mapResponse(payload)
 function. Supply 3 to 50 migration, preservation and rejection checks in a JSON
